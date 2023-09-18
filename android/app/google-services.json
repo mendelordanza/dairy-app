@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "297877401274",
+    "project_id": "night-diary-870c5",
+    "storage_bucket": "night-diary-870c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297877401274:android:0b9324e211cc78f3e25c83",
+        "android_client_info": {
+          "package_name": "com.example.night_diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "297877401274-t5gdr99brgqjl2mhbjsdn1hikbmdui3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkNV_h0m2zvD2Apt87russDstNcaKbv8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297877401274-9mv7pbp7bb8m5fjo2ou3pgk13n10lvuj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "297877401274-ftrgml2lu9j66lj1cts8nb3q8m06734s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nightDiary"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297877401274:android:7efbf4a009ca62afe25c83",
+        "android_client_info": {
+          "package_name": "com.ralphordanza.dairy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "297877401274-t5gdr99brgqjl2mhbjsdn1hikbmdui3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkNV_h0m2zvD2Apt87russDstNcaKbv8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297877401274-9mv7pbp7bb8m5fjo2ou3pgk13n10lvuj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "297877401274-ftrgml2lu9j66lj1cts8nb3q8m06734s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nightDiary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
