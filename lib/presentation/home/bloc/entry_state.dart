@@ -15,7 +15,7 @@ class EntryLoading extends EntryState {
 }
 
 class EntryLoaded extends EntryState {
-  final List<DiaryEntry> entries;
+  final List<Answer> entries;
 
   EntryLoaded(this.entries);
 

@@ -31,13 +31,14 @@ class QuoteRepositoryImpl extends QuoteRepository {
           messages: [
             Message(
               role: "system",
-              content: "You are a motiviation speaker.",
+              content: "You are a motiviational speaker.",
             ),
             Message(
               role: "user",
               content:
                   "Can you give me advice through a quote that resonates with this"
-                  " feeling? In JSON format with quote field only. No prose. No author name - '$prompt'",
+                  " feeling? In JSON format with quote field only. No prose. No author name."
+                  " No redundancy. Translate to english - '$prompt'",
             )
           ],
         ).toJson()),

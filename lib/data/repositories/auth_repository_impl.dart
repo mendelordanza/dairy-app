@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:night_diary/domain/models/auth_user.dart';
+import 'package:night_diary/domain/models/user_model.dart';
 import 'package:night_diary/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -9,10 +9,10 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this.firebaseAuth);
 
   @override
-  Stream<AuthUser> get fetchUserChanges {
+  Stream<UserModel> get fetchUserChanges {
     return firebaseAuth.authStateChanges().map((firebaseUser) {
       final user =
-          firebaseUser == null ? AuthUser.empty : firebaseUser.toAuthUser;
+          firebaseUser == null ? UserModel.empty : firebaseUser.toAuthUser;
       currentUser = user;
       return user;
     });
@@ -86,8 +86,8 @@ class AuthRepositoryImpl extends AuthRepository {
 }
 
 extension on User {
-  AuthUser get toAuthUser {
-    return AuthUser(
+  UserModel get toAuthUser {
+    return UserModel(
       id: uid,
       email: email,
       name: displayName,

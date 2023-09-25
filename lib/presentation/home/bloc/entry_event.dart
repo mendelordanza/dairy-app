@@ -8,21 +8,17 @@ abstract class EntryEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-
-class LoadEntries extends EntryEvent {
-}
+class LoadEntries extends EntryEvent {}
 
 class AddEntry extends EntryEvent {
-  final DiaryEntry diaryEntry;
+  final Answer answer;
 
-  AddEntry(this.diaryEntry);
+  AddEntry(this.answer);
 
   @override
-  List<Object> get props => [diaryEntry];
+  List<Object> get props => [answer];
 }
 
-class UpdateEntry extends EntryEvent {
-}
+class UpdateEntry extends EntryEvent {}
 
-class DeleteEntry extends EntryEvent {
-}
+class DeleteEntry extends EntryEvent {}

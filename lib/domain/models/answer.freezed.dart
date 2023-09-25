@@ -21,10 +21,11 @@ Answer _$AnswerFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Answer {
   int? get id => throw _privateConstructorUsedError;
-  String? get question => throw _privateConstructorUsedError;
+  @JsonKey(name: "decrypted_answer")
   String? get answer => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  String? get quote => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,10 +39,10 @@ abstract class $AnswerCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      String? question,
-      String? answer,
+      @JsonKey(name: "decrypted_answer") String? answer,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      String? quote});
 }
 
 /// @nodoc
@@ -58,20 +59,16 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
   @override
   $Res call({
     Object? id = freezed,
-    Object? question = freezed,
     Object? answer = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? quote = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      question: freezed == question
-          ? _value.question
-          : question // ignore: cast_nullable_to_non_nullable
-              as String?,
       answer: freezed == answer
           ? _value.answer
           : answer // ignore: cast_nullable_to_non_nullable
@@ -84,6 +81,10 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      quote: freezed == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -96,10 +97,10 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      String? question,
-      String? answer,
+      @JsonKey(name: "decrypted_answer") String? answer,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      String? quote});
 }
 
 /// @nodoc
@@ -113,20 +114,16 @@ class __$$_AnswerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? question = freezed,
     Object? answer = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? quote = freezed,
   }) {
     return _then(_$_Answer(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      question: freezed == question
-          ? _value.question
-          : question // ignore: cast_nullable_to_non_nullable
-              as String?,
       answer: freezed == answer
           ? _value.answer
           : answer // ignore: cast_nullable_to_non_nullable
@@ -139,6 +136,10 @@ class __$$_AnswerCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      quote: freezed == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -147,7 +148,11 @@ class __$$_AnswerCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Answer extends _Answer {
   const _$_Answer(
-      {this.id, this.question, this.answer, this.createdAt, this.updatedAt})
+      {this.id,
+      @JsonKey(name: "decrypted_answer") this.answer,
+      this.createdAt,
+      this.updatedAt,
+      this.quote})
       : super._();
 
   factory _$_Answer.fromJson(Map<String, dynamic> json) =>
@@ -156,17 +161,18 @@ class _$_Answer extends _Answer {
   @override
   final int? id;
   @override
-  final String? question;
-  @override
+  @JsonKey(name: "decrypted_answer")
   final String? answer;
   @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final String? quote;
 
   @override
   String toString() {
-    return 'Answer(id: $id, question: $question, answer: $answer, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Answer(id: $id, answer: $answer, createdAt: $createdAt, updatedAt: $updatedAt, quote: $quote)';
   }
 
   @override
@@ -175,19 +181,18 @@ class _$_Answer extends _Answer {
         (other.runtimeType == runtimeType &&
             other is _$_Answer &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.question, question) ||
-                other.question == question) &&
             (identical(other.answer, answer) || other.answer == answer) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.quote, quote) || other.quote == quote));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, question, answer, createdAt, updatedAt);
+      Object.hash(runtimeType, id, answer, createdAt, updatedAt, quote);
 
   @JsonKey(ignore: true)
   @override
@@ -206,10 +211,10 @@ class _$_Answer extends _Answer {
 abstract class _Answer extends Answer {
   const factory _Answer(
       {final int? id,
-      final String? question,
-      final String? answer,
+      @JsonKey(name: "decrypted_answer") final String? answer,
       final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$_Answer;
+      final DateTime? updatedAt,
+      final String? quote}) = _$_Answer;
   const _Answer._() : super._();
 
   factory _Answer.fromJson(Map<String, dynamic> json) = _$_Answer.fromJson;
@@ -217,13 +222,14 @@ abstract class _Answer extends Answer {
   @override
   int? get id;
   @override
-  String? get question;
-  @override
+  @JsonKey(name: "decrypted_answer")
   String? get answer;
   @override
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  String? get quote;
   @override
   @JsonKey(ignore: true)
   _$$_AnswerCopyWith<_$_Answer> get copyWith =>

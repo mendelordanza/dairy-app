@@ -13,10 +13,10 @@ sealed class Answer with _$Answer {
 
   const factory Answer({
     int? id,
-    String? question,
-    String? answer,
+    @JsonKey(name: "decrypted_answer") String? answer,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? quote,
   }) = _Answer;
 
   factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);
@@ -24,7 +24,6 @@ sealed class Answer with _$Answer {
   AnswerEntity toIsar({required DiaryEntry diaryEntry}) {
     final isarObject = AnswerEntity()
       ..id = id != null ? id! : Isar.autoIncrement
-      ..question = question
       ..answer = answer
       ..diaryEntry.value = diaryEntry.toIsar()
       ..createdAt = createdAt?.toIso8601String()
