@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/add_entry_page.dart';
+import 'package:night_diary/presentation/home/entry_page.dart';
 import 'package:night_diary/presentation/landing_page.dart';
 import 'package:night_diary/presentation/quote/generate_quote_page.dart';
+
+import '../domain/models/answer.dart';
 
 class RouteGenerator {
   static RouterConfig<Object>? generateRoute() {
@@ -27,10 +30,19 @@ class RouteGenerator {
           name: RouteStrings.quote,
           path: RouteStrings.quote,
           builder: (context, state) {
-            final prompt = state.extra as String;
+            final args = state.extra as Map<String, dynamic>;
             return GenerateQuotePage(
-              text: prompt,
+              answerId: args["answerId"],
+              text: args["prompt"],
             );
+          },
+        ),
+        GoRoute(
+          name: RouteStrings.entry,
+          path: RouteStrings.entry,
+          builder: (context, state) {
+            final args = state.extra as Answer;
+            return EntryPage(answer: args);
           },
         ),
       ],

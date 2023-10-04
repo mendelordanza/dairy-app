@@ -1,5 +1,5 @@
 import 'package:night_diary/data/datasources/local_data_source.dart';
-import 'package:night_diary/domain/models/diary_entry.dart';
+import 'package:night_diary/domain/models/answer.dart';
 
 import '../../domain/repositories/diary_entry_repository.dart';
 import '../datasources/remote_data_source.dart';
@@ -11,13 +11,9 @@ class DiaryEntryRepositoryImpl extends DiaryEntryRepository {
   DiaryEntryRepositoryImpl(this.localDataSource, this.remoteDataSource);
 
   @override
-  Future<int> addEntry({required DiaryEntry diaryEntry}) async {
-    //final entry =  await localDataSource.addEntry(diaryEntry: diaryEntry);
-    final id = await localDataSource.addAnswer(
-      diaryEntry: diaryEntry,
-      answer: diaryEntry.answers[0],
-    );
-    return id;
+  Future<Answer?> addEntry({required Answer answer}) async {
+    final data = await remoteDataSource.addEntry(answer: answer);
+    return data;
   }
 
   @override
@@ -33,7 +29,7 @@ class DiaryEntryRepositoryImpl extends DiaryEntryRepository {
   }
 
   @override
-  Future<List<DiaryEntry>> loadEntries() async {
-    return await localDataSource.loadEntries();
+  Future<List<Answer>> loadEntries() async {
+    return await remoteDataSource.loadEntries();
   }
 }

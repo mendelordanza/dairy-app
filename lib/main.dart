@@ -1,11 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:night_diary/helper/route_generator.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:night_diary/helper/theme.dart';
 import 'package:night_diary/injection_container.dart';
 import 'package:night_diary/presentation/auth/auth_bloc.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
-import 'package:night_diary/presentation/quote/bloc/quote_cubit.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'config_reader.dart';
 import 'firebase_options.dart';
 import 'injection_container.dart' as di;
@@ -18,6 +20,13 @@ void main() async {
   );
 
   await ConfigReader.initialize();
+
+  final apiUrl = ConfigReader.getApiUrl();
+  final anonKey = ConfigReader.getAnonKey();
+  await Supabase.initialize(
+    url: apiUrl,
+    anonKey: anonKey,
+  );
 
   await di.setup();
 
@@ -38,16 +47,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<EntryBloc>(),
         ),
-        BlocProvider(
-          create: (context) => getIt<QuoteCubit>(),
-        ),
       ],
       child: MaterialApp.router(
         title: 'Night Diary',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: false,
-        ),
+        theme: MyThemes.lightTheme,
+        darkTheme: MyThemes.darkTheme,
         routerConfig: RouteGenerator.generateRoute(),
       ),
     );

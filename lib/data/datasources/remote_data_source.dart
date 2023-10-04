@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:night_diary/domain/models/answer.dart';
-
-import '../../domain/models/diary_entry.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class RemoteDataSource {
-  Future<List<DiaryEntry>> loadEntries();
+  Future<List<Answer>> loadEntries();
 
-  Future<void> addEntry({required DiaryEntry diaryEntry});
+  Future<Answer?> addEntry({required Answer answer});
 
   Future<void> editEntry();
 
@@ -15,14 +12,19 @@ abstract class RemoteDataSource {
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
-  final FirebaseFirestore firestore;
+  final SupabaseClient supabaseClient;
 
-  RemoteDataSourceImpl(this.firestore);
+  RemoteDataSourceImpl(this.supabaseClient);
 
   @override
-  Future<void> addEntry({required DiaryEntry diaryEntry}) {
-    // TODO: implement addEntry
-    throw UnimplementedError();
+  Future<Answer?> addEntry({required Answer answer}) async {
+    final response = await supabaseClient.from("answers").insert({
+      "answer": answer.answer,
+      "created_at": DateTime.now().toIso8601String(),
+      "updated_at": DateTime.now().toIso8601String(),
+      "user_id": supabaseClient.auth.currentUser?.id,
+    }).select();
+    return Answer.fromJson(response[0]);
   }
 
   @override
@@ -38,40 +40,11 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future<List<DiaryEntry>> loadEntries() async {
-    // final entriesRf = firestore
-    //     .collection("users")
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .collection("entries");
-    //
-    // final querySnapshotEntries = await entriesRf
-    //     .withConverter<DiaryEntry>(
-    //         fromFirestore: (snapshot, _) =>
-    //             DiaryEntry.fromJson(snapshot.data()!),
-    //         toFirestore: (diaryEntry, _) => diaryEntry.toJson())
-    //     .get();
-    // final entries = querySnapshotEntries.docs.map((e) => e.data()).toList();
-    //
-    // List<DiaryEntry> newEntries = [];
-    // for (var entry in entries) {
-    //   final querySnapshotAnswers = await entriesRf
-    //       .doc(entry.id)
-    //       .collection("answers")
-    //       .withConverter<Answer>(
-    //           fromFirestore: (snapshot, _) =>
-    //               Answer.fromJson(snapshot.data()!),
-    //           toFirestore: (answer, _) => answer.toJson())
-    //       .get();
-    //   final answers = querySnapshotAnswers.docs.map((e) => e.data()).toList();
-    //   final newEntry = entries
-    //       .singleWhere((element) => element.id == entry.id)
-    //       .copyWith(answers: answers);
-    //   newEntries.add(newEntry);
-    // }
-    //
-    // return newEntries;
-
-    // TODO: implement editEntry
-    throw UnimplementedError();
+  Future<List<Answer>> loadEntries() async {
+    final data = await supabaseClient
+        .from("decrypted_answers")
+        .select("*")
+        .eq("user_id", supabaseClient.auth.currentUser?.id);
+    return List.from(data).map((e) => Answer.fromJson(e)).toList();
   }
 }

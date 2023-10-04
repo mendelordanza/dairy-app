@@ -1,9 +1,9 @@
-import 'package:night_diary/domain/models/diary_entry.dart';
+import 'package:night_diary/domain/models/answer.dart';
 
 abstract class DiaryEntryRepository {
-  Future<List<DiaryEntry>> loadEntries();
+  Future<List<Answer>> loadEntries();
 
-  Future<int> addEntry({required DiaryEntry diaryEntry});
+  Future<Answer?> addEntry({required Answer answer});
 
   Future<void> editEntry();
 

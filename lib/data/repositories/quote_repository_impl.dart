@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:night_diary/domain/repositories/quote_repository.dart';
 import 'package:night_diary/helper/data_state.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../config_reader.dart';
 import '../../domain/models/completion.dart';
@@ -11,8 +12,9 @@ import '../../domain/models/openai_request_body.dart';
 
 class QuoteRepositoryImpl extends QuoteRepository {
   final Dio dio;
+  final SupabaseClient supabaseClient;
 
-  QuoteRepositoryImpl(this.dio);
+  QuoteRepositoryImpl(this.dio, this.supabaseClient);
 
   @override
   Future<DataState<String>> generateQuote({required String prompt}) async {
@@ -31,13 +33,13 @@ class QuoteRepositoryImpl extends QuoteRepository {
           messages: [
             Message(
               role: "system",
-              content: "You are a motiviation speaker.",
+              content: "You are a motiviational speaker.",
             ),
             Message(
               role: "user",
-              content:
-                  "Can you give me advice through a quote that resonates with this"
-                  " feeling? In JSON format with quote field only. No prose. No author name - '$prompt'",
+              content: "Can you give me a quote related on the statement below?"
+                  " In JSON format with quote field only. No prose. No author name."
+                  " No redundancy. Translate to english - '$prompt'",
             )
           ],
         ).toJson()),
@@ -55,5 +57,12 @@ class QuoteRepositoryImpl extends QuoteRepository {
     } on DioException catch (e) {
       return DataFailed(error: e.message ?? "Something went wrong.");
     }
+  }
+
+  @override
+  Future<void> saveQuote({required int answerId, required String quote}) async {
+    await supabaseClient
+        .from('answers')
+        .update({'quote': quote}).eq("id", answerId);
   }
 }

@@ -4,4 +4,5 @@ class RouteStrings {
   static const String signUp = '/signUp';
   static const String addEntry = '/addEntry';
   static const String quote = '/quote';
+  static const String entry = '/entry';
 }

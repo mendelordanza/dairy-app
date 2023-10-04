@@ -1,9 +1,9 @@
-import '../models/auth_user.dart';
+import '../models/user_model.dart';
 
 abstract class AuthRepository {
-  AuthUser currentUser = AuthUser.empty;
+  UserModel currentUser = UserModel.empty;
 
-  Stream<AuthUser> get fetchUserChanges;
+  Stream<UserModel> get fetchUserChanges;
 
   Future<void> signUpWithEmail({
     required String email,
