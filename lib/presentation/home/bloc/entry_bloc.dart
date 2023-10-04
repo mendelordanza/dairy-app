@@ -14,6 +14,8 @@ class EntryBloc extends Bloc<EntryEvent, EntryState> {
   EntryBloc(this.diaryEntryRepository) : super(EntryInitial()) {
     on<LoadEntries>(loadEntries);
     on<AddEntry>(addEntry);
+
+    add(LoadEntries());
   }
 
   loadEntries(LoadEntries event, Emitter<EntryState> emit) async {
@@ -24,7 +26,10 @@ class EntryBloc extends Bloc<EntryEvent, EntryState> {
   }
 
   addEntry(AddEntry event, Emitter<EntryState> emit) async {
-    await diaryEntryRepository.addEntry(answer: event.answer);
-    add(LoadEntries());
+    final answer = await diaryEntryRepository.addEntry(answer: event.answer);
+    if (answer != null) {
+      emit(EntryAdded(answer.id!, event.answer.answer!));
+      add(LoadEntries());
+    }
   }
 }

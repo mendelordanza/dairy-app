@@ -14,8 +14,8 @@ sealed class Answer with _$Answer {
   const factory Answer({
     int? id,
     @JsonKey(name: "decrypted_answer") String? answer,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    @JsonKey(name: "created_at") DateTime? createdAt,
+    @JsonKey(name: "updated_at") DateTime? updatedAt,
     String? quote,
   }) = _Answer;
 

@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'colors.dart';
+
 class MyThemes {
   static final darkTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.black54,
+    scaffoldBackgroundColor: darkBackgroundColor,
     colorScheme: const ColorScheme.dark(
       onSurface: Colors.white,
-      primary: Colors.lightBlueAccent,
+      primary: primaryColor,
     ),
-    primaryColor: Colors.lightBlueAccent,
-    cardColor: const Color(0xFF454545),
+    primaryColor: primaryColor,
+    cardColor: darkCardColor,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
     ),
     fontFamily: "Montserrat",
     appBarTheme: const AppBarTheme(
@@ -29,7 +32,7 @@ class MyThemes {
       ),
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: Colors.blue,
+      color: primaryColor,
       linearTrackColor: Colors.grey,
     ),
   );
@@ -38,12 +41,13 @@ class MyThemes {
     scaffoldBackgroundColor: const Color(0xFFEEEEEE),
     colorScheme: const ColorScheme.light(
       onSurface: Colors.black,
-      primary: Colors.lightBlueAccent,
+      primary: primaryColor,
     ),
-    cardColor: Colors.white,
-    primaryColor: Colors.lightBlueAccent,
+    cardColor: lightCardColor,
+    primaryColor: primaryColor,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
     ),
     fontFamily: "Montserrat",
     appBarTheme: const AppBarTheme(
@@ -64,10 +68,10 @@ class MyThemes {
       ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      selectedItemColor: Colors.lightBlueAccent,
+      selectedItemColor: primaryColor,
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: Colors.lightBlueAccent,
+      color: primaryColor,
       linearTrackColor: Colors.grey,
     ),
   );

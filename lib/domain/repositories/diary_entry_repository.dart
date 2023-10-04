@@ -3,7 +3,7 @@ import 'package:night_diary/domain/models/answer.dart';
 abstract class DiaryEntryRepository {
   Future<List<Answer>> loadEntries();
 
-  Future<int> addEntry({required Answer answer});
+  Future<Answer?> addEntry({required Answer answer});
 
   Future<void> editEntry();
 

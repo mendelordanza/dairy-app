@@ -12,7 +12,7 @@ import 'package:night_diary/domain/repositories/auth_repository.dart';
 import 'package:night_diary/domain/repositories/quote_repository.dart';
 import 'package:night_diary/presentation/auth/auth_bloc.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
-import 'package:night_diary/presentation/quote/bloc/quote_cubit.dart';
+import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,12 +24,12 @@ final getIt = GetIt.instance;
 
 Future<void> setup() async {
   //Bloc
-  getIt.registerLazySingleton(() => AuthBloc(authRepository: getIt()));
-  getIt.registerLazySingleton(
+  getIt.registerFactory(() => AuthBloc(authRepository: getIt()));
+  getIt.registerFactory(
     () => EntryBloc(getIt()),
   );
-  getIt.registerLazySingleton(
-    () => QuoteCubit(quoteRepository: getIt()),
+  getIt.registerFactory(
+    () => QuoteBloc(quoteRepository: getIt()),
   );
 
   //Repository
@@ -43,6 +43,7 @@ Future<void> setup() async {
             getIt(),
           ));
   getIt.registerLazySingleton<QuoteRepository>(() => QuoteRepositoryImpl(
+        getIt(),
         getIt(),
       ));
 

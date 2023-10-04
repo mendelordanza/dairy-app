@@ -23,7 +23,9 @@ mixin _$Answer {
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "decrypted_answer")
   String? get answer => throw _privateConstructorUsedError;
+  @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "updated_at")
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get quote => throw _privateConstructorUsedError;
 
@@ -40,8 +42,8 @@ abstract class $AnswerCopyWith<$Res> {
   $Res call(
       {int? id,
       @JsonKey(name: "decrypted_answer") String? answer,
-      DateTime? createdAt,
-      DateTime? updatedAt,
+      @JsonKey(name: "created_at") DateTime? createdAt,
+      @JsonKey(name: "updated_at") DateTime? updatedAt,
       String? quote});
 }
 
@@ -98,8 +100,8 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
   $Res call(
       {int? id,
       @JsonKey(name: "decrypted_answer") String? answer,
-      DateTime? createdAt,
-      DateTime? updatedAt,
+      @JsonKey(name: "created_at") DateTime? createdAt,
+      @JsonKey(name: "updated_at") DateTime? updatedAt,
       String? quote});
 }
 
@@ -150,8 +152,8 @@ class _$_Answer extends _Answer {
   const _$_Answer(
       {this.id,
       @JsonKey(name: "decrypted_answer") this.answer,
-      this.createdAt,
-      this.updatedAt,
+      @JsonKey(name: "created_at") this.createdAt,
+      @JsonKey(name: "updated_at") this.updatedAt,
       this.quote})
       : super._();
 
@@ -164,8 +166,10 @@ class _$_Answer extends _Answer {
   @JsonKey(name: "decrypted_answer")
   final String? answer;
   @override
+  @JsonKey(name: "created_at")
   final DateTime? createdAt;
   @override
+  @JsonKey(name: "updated_at")
   final DateTime? updatedAt;
   @override
   final String? quote;
@@ -212,8 +216,8 @@ abstract class _Answer extends Answer {
   const factory _Answer(
       {final int? id,
       @JsonKey(name: "decrypted_answer") final String? answer,
-      final DateTime? createdAt,
-      final DateTime? updatedAt,
+      @JsonKey(name: "created_at") final DateTime? createdAt,
+      @JsonKey(name: "updated_at") final DateTime? updatedAt,
       final String? quote}) = _$_Answer;
   const _Answer._() : super._();
 
@@ -225,8 +229,10 @@ abstract class _Answer extends Answer {
   @JsonKey(name: "decrypted_answer")
   String? get answer;
   @override
+  @JsonKey(name: "created_at")
   DateTime? get createdAt;
   @override
+  @JsonKey(name: "updated_at")
   DateTime? get updatedAt;
   @override
   String? get quote;

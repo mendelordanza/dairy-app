@@ -11,15 +11,9 @@ class DiaryEntryRepositoryImpl extends DiaryEntryRepository {
   DiaryEntryRepositoryImpl(this.localDataSource, this.remoteDataSource);
 
   @override
-  Future<int> addEntry({required Answer answer}) async {
-    //final entry =  await localDataSource.addEntry(diaryEntry: diaryEntry);
-    // final id = await localDataSource.addAnswer(
-    //   diaryEntry: diaryEntry,
-    //   answer: diaryEntry.answers[0],
-    // );
-    // return id;
-    await remoteDataSource.addEntry(answer: answer);
-    return 1;
+  Future<Answer?> addEntry({required Answer answer}) async {
+    final data = await remoteDataSource.addEntry(answer: answer);
+    return data;
   }
 
   @override

@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:night_diary/domain/models/user_model.dart';
 import 'package:night_diary/helper/constants.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../domain/repositories/auth_repository.dart';
@@ -31,8 +32,8 @@ class SupabaseAuthRepositoryImpl extends AuthRepository {
     try {
       final response = await supabaseClient.auth.signInWithApple();
       print("SESSION: ${response.session!.user}");
-    } catch (e) {
-      print("Something went wrong.");
+    } on AuthException catch (e) {
+      print("Something went wrong. ${e}");
     }
   }
 
@@ -42,7 +43,11 @@ class SupabaseAuthRepositoryImpl extends AuthRepository {
       final rawNonce = _generateRandomString();
       final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
 
-      final clientId = Platform.isIOS ? IOS_CLIENT_ID : ANDROID_CLIENT_ID;
+      final platform = await PackageInfo.fromPlatform();
+      String clientId = Platform.isIOS ? IOS_CLIENT_ID : ANDROID_CLIENT_ID;
+      if (platform.packageName.contains(".dev")) {
+        clientId = DEV_CLIENT_ID;
+      }
 
       /// Set as reversed DNS form of Google Client ID + `:/` for Google login
       final redirectUrl = '${clientId.split('.').reversed.join('.')}:/';
@@ -98,7 +103,7 @@ class SupabaseAuthRepositoryImpl extends AuthRepository {
         nonce: rawNonce,
       );
     } catch (e) {
-      print("Something went wrong.");
+      print("$e Something went wrong.");
     }
   }
 

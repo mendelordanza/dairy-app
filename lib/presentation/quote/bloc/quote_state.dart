@@ -1,4 +1,4 @@
-part of 'quote_cubit.dart';
+part of 'quote_bloc.dart';
 
 @immutable
 abstract class QuoteState {}
@@ -18,3 +18,5 @@ class QuoteError extends QuoteState {
 
   QuoteError(this.message);
 }
+
+class QuoteSaved extends QuoteState {}

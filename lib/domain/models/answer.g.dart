@@ -9,19 +9,19 @@ part of 'answer.dart';
 _$_Answer _$$_AnswerFromJson(Map<String, dynamic> json) => _$_Answer(
       id: json['id'] as int?,
       answer: json['decrypted_answer'] as String?,
-      createdAt: json['createdAt'] == null
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
           ? null
-          : DateTime.parse(json['updatedAt'] as String),
+          : DateTime.parse(json['updated_at'] as String),
       quote: json['quote'] as String?,
     );
 
 Map<String, dynamic> _$$_AnswerToJson(_$_Answer instance) => <String, dynamic>{
       'id': instance.id,
       'decrypted_answer': instance.answer,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'quote': instance.quote,
     };
