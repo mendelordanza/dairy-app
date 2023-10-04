@@ -42,7 +42,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   @override
   Future<List<Answer>> loadEntries() async {
     final data = await supabaseClient
-        .from("decrypted_answers")
+        .from("answers")
         .select("*")
         .eq("user_id", supabaseClient.auth.currentUser?.id);
     return List.from(data).map((e) => Answer.fromJson(e)).toList();

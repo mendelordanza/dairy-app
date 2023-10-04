@@ -8,7 +8,7 @@ part of 'answer.dart';
 
 _$_Answer _$$_AnswerFromJson(Map<String, dynamic> json) => _$_Answer(
       id: json['id'] as int?,
-      answer: json['decrypted_answer'] as String?,
+      answer: json['answer'] as String?,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -20,7 +20,7 @@ _$_Answer _$$_AnswerFromJson(Map<String, dynamic> json) => _$_Answer(
 
 Map<String, dynamic> _$$_AnswerToJson(_$_Answer instance) => <String, dynamic>{
       'id': instance.id,
-      'decrypted_answer': instance.answer,
+      'answer': instance.answer,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'quote': instance.quote,

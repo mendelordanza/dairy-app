@@ -42,57 +42,94 @@ class GenerateQuoteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text("Your Quote"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Container(
-          padding: const EdgeInsets.all(24.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24.0),
-            color: Theme.of(context).cardColor,
-          ),
-          child: BlocConsumer<QuoteBloc, QuoteState>(
-            listener: (context, state) {
-              if (state is QuoteSaved) {
-                context.read<EntryBloc>().add(LoadEntries());
-              }
-            },
-            builder: (context, state) {
-              if (state is QuoteGenerated) {
-                return _buildBody(context, quote: state.quote);
-              }
-              if (state is QuoteLoading) {
-                return const Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator.adaptive(),
-                      Text(" Please wait."),
-                    ],
-                  ),
-                );
-              }
-              if (state is QuoteError) {
-                return Text(state.message);
-              }
-              return Center(
-                child: TextButton(
-                  onPressed: () {
-                    context.read<QuoteBloc>().add(GenerateQuote(text));
-                  },
-                  child: const Text("Generate Quote"),
-                ),
-              );
-            },
+    return Stack(
+      children: [
+        SizedBox(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          child: Image.asset(
+            "assets/background.png",
+            fit: BoxFit.fill,
           ),
         ),
-      ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: const Text(
+              "Your Quote",
+              style: TextStyle(color: Colors.white),
+            ),
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24.0),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                child: Container(
+                  padding: const EdgeInsets.all(24.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24.0),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.grey.withOpacity(0.5),
+                        Colors.grey.withOpacity(0.2),
+                      ],
+                    ),
+                  ),
+                  child: BlocConsumer<QuoteBloc, QuoteState>(
+                    listener: (context, state) {
+                      if (state is QuoteSaved) {
+                        context.read<EntryBloc>().add(LoadEntries());
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is QuoteGenerated) {
+                        return _buildBody(context, quote: state.quote);
+                      }
+                      if (state is QuoteLoading) {
+                        return const Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator.adaptive(),
+                              Text(" Please wait."),
+                            ],
+                          ),
+                        );
+                      }
+                      if (state is QuoteError) {
+                        return Text(state.message);
+                      }
+                      return Center(
+                        child: TextButton(
+                          onPressed: () {
+                            context.read<QuoteBloc>().add(GenerateQuote(text));
+                          },
+                          child: const Text(
+                            "Generate Quote",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

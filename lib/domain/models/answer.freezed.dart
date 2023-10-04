@@ -21,7 +21,7 @@ Answer _$AnswerFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Answer {
   int? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "decrypted_answer")
+  @JsonKey(name: "answer")
   String? get answer => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $AnswerCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      @JsonKey(name: "decrypted_answer") String? answer,
+      @JsonKey(name: "answer") String? answer,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
       String? quote});
@@ -99,7 +99,7 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      @JsonKey(name: "decrypted_answer") String? answer,
+      @JsonKey(name: "answer") String? answer,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
       String? quote});
@@ -151,7 +151,7 @@ class __$$_AnswerCopyWithImpl<$Res>
 class _$_Answer extends _Answer {
   const _$_Answer(
       {this.id,
-      @JsonKey(name: "decrypted_answer") this.answer,
+      @JsonKey(name: "answer") this.answer,
       @JsonKey(name: "created_at") this.createdAt,
       @JsonKey(name: "updated_at") this.updatedAt,
       this.quote})
@@ -163,7 +163,7 @@ class _$_Answer extends _Answer {
   @override
   final int? id;
   @override
-  @JsonKey(name: "decrypted_answer")
+  @JsonKey(name: "answer")
   final String? answer;
   @override
   @JsonKey(name: "created_at")
@@ -215,7 +215,7 @@ class _$_Answer extends _Answer {
 abstract class _Answer extends Answer {
   const factory _Answer(
       {final int? id,
-      @JsonKey(name: "decrypted_answer") final String? answer,
+      @JsonKey(name: "answer") final String? answer,
       @JsonKey(name: "created_at") final DateTime? createdAt,
       @JsonKey(name: "updated_at") final DateTime? updatedAt,
       final String? quote}) = _$_Answer;
@@ -226,7 +226,7 @@ abstract class _Answer extends Answer {
   @override
   int? get id;
   @override
-  @JsonKey(name: "decrypted_answer")
+  @JsonKey(name: "answer")
   String? get answer;
   @override
   @JsonKey(name: "created_at")
