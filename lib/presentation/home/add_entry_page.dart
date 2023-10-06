@@ -4,9 +4,19 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:night_diary/domain/models/answer.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/widgets/custom_button.dart';
 
-class AddEntryPage extends HookWidget {
+class AddEntryPage extends StatelessWidget {
   const AddEntryPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AddEntryView();
+  }
+}
+
+class AddEntryView extends HookWidget {
+  const AddEntryView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +65,7 @@ class AddEntryPage extends HookWidget {
                   ],
                 ),
               ),
-              ElevatedButton(
+              CustomButton(
                 onPressed: () {
                   final answer = Answer(
                     answer: answerTextController.text,

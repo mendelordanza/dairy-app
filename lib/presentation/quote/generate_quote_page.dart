@@ -1,13 +1,18 @@
 import 'dart:ui';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../injection_container.dart';
+import '../paywall/paywall_page.dart';
 import 'bloc/quote_event.dart';
 
 class GenerateQuotePage extends StatelessWidget {
@@ -19,12 +24,8 @@ class GenerateQuotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => getIt<QuoteBloc>(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => getIt<QuoteBloc>(),
       child: GenerateQuoteView(
         answerId: answerId,
         text: text,
@@ -39,6 +40,33 @@ class GenerateQuoteView extends StatelessWidget {
 
   const GenerateQuoteView(
       {required this.answerId, required this.text, super.key});
+
+  showPaywall(BuildContext context) async {
+    try {
+      final offerings = await Purchases.getOfferings();
+      if (context.mounted && offerings.current != null) {
+        await showModalBottomSheet(
+          isDismissible: true,
+          isScrollControlled: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+          ),
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setModalState) {
+              return PaywallPage(
+                offering: offerings.current!,
+              );
+            });
+          },
+        );
+      }
+    } on PlatformException catch (e) {
+      print(e.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +129,10 @@ class GenerateQuoteView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               CircularProgressIndicator.adaptive(),
-                              Text(" Please wait."),
+                              Text(
+                                " Please wait.",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ],
                           ),
                         );
@@ -134,6 +165,7 @@ class GenerateQuoteView extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, {required String quote}) {
+    final totalGeneratedQuote = context.read<QuoteBloc>().totalGeneratedQuote;
     return Column(
       children: [
         Expanded(
@@ -141,14 +173,25 @@ class GenerateQuoteView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                '" $quote "',
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                  height: 1.6,
-                ),
-                textAlign: TextAlign.center,
+              AnimatedTextKit(
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                    '" $quote "',
+                    textStyle: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                      height: 1.6,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                    speed: const Duration(
+                      milliseconds: 50,
+                    ),
+                  ),
+                ],
+                totalRepeatCount: 1,
+                displayFullTextOnTap: true,
+                stopPauseOnTap: true,
               ),
               const SizedBox(
                 height: 16.0,
@@ -158,8 +201,16 @@ class GenerateQuoteView extends StatelessWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.share),
-                    Text(" Share"),
+                    Icon(
+                      Icons.share,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      " Share",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -169,17 +220,39 @@ class GenerateQuoteView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            TextButton(
-              onPressed: () {
-                context.read<QuoteBloc>().add(GenerateQuote(text));
+            BlocConsumer<PurchaseBloc, PurchaseState>(
+              listener: (context, state) {
+                if ((state is PurchaseLoaded && !state.entitled) &&
+                    totalGeneratedQuote == 1) {
+                  showPaywall(context);
+                }
               },
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.refresh),
-                  Text(" Regenerate"),
-                ],
-              ),
+              builder: (context, state) {
+                return TextButton(
+                  onPressed: () async {
+                    context.read<PurchaseBloc>().add(CheckEntitlement());
+                    if ((state is PurchaseLoaded && state.entitled) ||
+                        totalGeneratedQuote == 0) {
+                      context.read<QuoteBloc>().add(GenerateQuote(text));
+                    }
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.refresh,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        " Regenerate",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
             TextButton(
               onPressed: () {
@@ -194,8 +267,16 @@ class GenerateQuoteView extends StatelessWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.save),
-                  Text(" Save"),
+                  Icon(
+                    Icons.save,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    " Save",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
             ),

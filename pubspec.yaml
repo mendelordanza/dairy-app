@@ -99,6 +99,12 @@ dependencies:
   #DotEnv
   flutter_dotenv: ^5.1.0
 
+  #AnimatedText
+  animated_text_kit: ^4.2.2
+
+  #Purchases
+  purchases_flutter: ^5.8.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

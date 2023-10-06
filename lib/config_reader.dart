@@ -12,7 +12,7 @@ abstract class ConfigReader {
     if (platform.packageName.contains(".dev")) {
       configString = await rootBundle.loadString('config/app_config_dev.json');
     } else {
-      configString = await rootBundle.loadString('config/app_config.json');
+      configString = await rootBundle.loadString('config/app_config_dev.json');
     }
     _config = json.decode(configString) as Map<String, dynamic>;
   }
@@ -31,5 +31,9 @@ abstract class ConfigReader {
 
   static String getAnonKey() {
     return _config!['ANON_KEY'] as String;
+  }
+
+  static String getAppleKey() {
+    return _config!['APPLE_KEY'] as String;
   }
 }

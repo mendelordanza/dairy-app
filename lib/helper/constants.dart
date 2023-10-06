@@ -5,3 +5,9 @@ const ANDROID_CLIENT_ID =
 
 const DEV_CLIENT_ID =
     "502071082242-10gaibe4olsmk5c19icuq7iph10jh6qb.apps.googleusercontent.com";
+
+const appleApiKey = 'appl_TBhgCCMYGycuJdnpnXWWnzcfPXT';
+const googleApiKey =
+    'goog_jniLvRuFmpzaKuyjobDfrHVlcdF'; //TODO change if android support is avail
+const project = "dairy";
+const entitlementId = "Premium";

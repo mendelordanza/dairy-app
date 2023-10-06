@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/add_entry_page.dart';
+import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/home/entry_page.dart';
 import 'package:night_diary/presentation/landing_page.dart';
 import 'package:night_diary/presentation/quote/generate_quote_page.dart';
@@ -23,7 +25,10 @@ class RouteGenerator {
           name: RouteStrings.addEntry,
           path: RouteStrings.addEntry,
           builder: (context, state) {
-            return const AddEntryPage();
+            return BlocProvider.value(
+              value: state.extra as EntryBloc,
+              child: const AddEntryPage(),
+            );
           },
         ),
         GoRoute(
@@ -31,9 +36,12 @@ class RouteGenerator {
           path: RouteStrings.quote,
           builder: (context, state) {
             final args = state.extra as Map<String, dynamic>;
-            return GenerateQuotePage(
-              answerId: args["answerId"],
-              text: args["prompt"],
+            return BlocProvider.value(
+              value: args["entryBloc"] as EntryBloc,
+              child: GenerateQuotePage(
+                answerId: args["answerId"],
+                text: args["prompt"],
+              ),
             );
           },
         ),

@@ -12,6 +12,7 @@ import 'package:night_diary/domain/repositories/auth_repository.dart';
 import 'package:night_diary/domain/repositories/quote_repository.dart';
 import 'package:night_diary/presentation/auth/auth_bloc.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,6 +31,9 @@ Future<void> setup() async {
   );
   getIt.registerFactory(
     () => QuoteBloc(quoteRepository: getIt()),
+  );
+  getIt.registerFactory(
+    () => PurchaseBloc(),
   );
 
   //Repository

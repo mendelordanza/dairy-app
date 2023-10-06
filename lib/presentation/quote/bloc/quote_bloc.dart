@@ -15,10 +15,13 @@ class QuoteBloc extends Bloc<QuoteEvent, QuoteState> {
     on<SaveQuote>(saveQuote);
   }
 
+  int totalGeneratedQuote = 0;
+
   generateQuote(GenerateQuote event, Emitter emit) async {
     emit(QuoteLoading());
     final response = await quoteRepository.generateQuote(prompt: event.prompt);
     if (response is DataSuccess && response.data != null) {
+      totalGeneratedQuote++;
       emit(QuoteGenerated(response.data!));
     } else if (response is DataFailed) {
       emit(QuoteError("${response.error}"));

@@ -1,17 +1,59 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:night_diary/domain/models/answer.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/paywall/paywall_page.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
-import '../auth/auth_bloc.dart';
+import '../../injection_container.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<EntryBloc>(),
+      child: HomeView(),
+    );
+  }
+}
+
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
+
+  showPaywall(BuildContext context) async {
+    try {
+      final offerings = await Purchases.getOfferings();
+      if (context.mounted && offerings.current != null) {
+        await showModalBottomSheet(
+          isDismissible: true,
+          isScrollControlled: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+          ),
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setModalState) {
+              return PaywallPage(
+                offering: offerings.current!,
+              );
+            });
+          },
+        );
+      }
+    } on PlatformException catch (e) {
+      print(e.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +72,8 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              context.read<AuthBloc>().add(LogoutRequest());
+              //context.read<AuthBloc>().add(LogoutRequest());
+              showPaywall(context);
             },
             icon: const Icon(
               Icons.settings,
@@ -44,7 +87,10 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.push(RouteStrings.addEntry);
+          context.push(
+            RouteStrings.addEntry,
+            extra: context.read<EntryBloc>(),
+          );
         },
         child: const Icon(Icons.edit),
       ),
@@ -64,6 +110,7 @@ class HomePage extends StatelessWidget {
                   context.push(
                     RouteStrings.quote,
                     extra: {
+                      "entryBloc": context.read<EntryBloc>(),
                       "answerId": state.answerId,
                       "prompt": state.text,
                     },
