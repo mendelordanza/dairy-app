@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<EntryBloc>(),
-      child: HomeView(),
+      child: const HomeView(),
     );
   }
 }
@@ -57,43 +57,57 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: false,
-        title: const Text(
-          "Good evening, Ralph!",
-          style: TextStyle(
-            fontSize: 19,
-            fontWeight: FontWeight.w700,
+    return Stack(
+      children: [
+        SizedBox(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          child: Image.asset(
+            "assets/background.png",
+            fit: BoxFit.fill,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              //context.read<AuthBloc>().add(LogoutRequest());
-              showPaywall(context);
-            },
-            icon: const Icon(
-              Icons.settings,
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            centerTitle: false,
+            title: const Text(
+              "Good evening, Ralph!",
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.w700,
+              ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  //context.read<AuthBloc>().add(LogoutRequest());
+                  showPaywall(context);
+                },
+                icon: const Icon(
+                  Icons.settings,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: _buildBody(context),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push(
-            RouteStrings.addEntry,
-            extra: context.read<EntryBloc>(),
-          );
-        },
-        child: const Icon(Icons.edit),
-      ),
+          body: SafeArea(
+            bottom: false,
+            child: _buildBody(context),
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.black,
+            onPressed: () {
+              context.push(
+                RouteStrings.addEntry,
+                extra: context.read<EntryBloc>(),
+              );
+            },
+            child: const Icon(Icons.edit),
+          ),
+        ),
+      ],
     );
   }
 
@@ -154,53 +168,72 @@ class EntryItem extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-            color: Theme.of(context).cardColor,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                answer.createdAt.formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
-              Text(
-                "${answer.answer}",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  height: 1.5,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              if (answer.quote != null)
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '" ${answer.quote} "',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700,
-                          height: 1.3,
-                        ),
-                      ),
-                    ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24.0),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24.0),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.grey.withOpacity(0.5),
+                    Colors.grey.withOpacity(0.2),
                   ],
-                )
-            ],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    answer.createdAt
+                        .formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  Text(
+                    "${answer.answer}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                      color: Colors.white,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (answer.quote != null)
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        const Divider(
+                          color: Colors.grey,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            '" ${answer.quote} "',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w700,
+                              height: 1.3,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                ],
+              ),
+            ),
           ),
         ),
       ),

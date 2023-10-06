@@ -15,8 +15,15 @@ class EntryPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title:
-            Text(DateTime.now().formatDate(pattern: "MMM. dd, yyyy - H:mm a")),
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          DateTime.now().formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
+          style: const TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Column(
@@ -39,8 +46,9 @@ class EntryPage extends StatelessWidget {
                       ),
                     ),
                   Expanded(
-                    child: Padding(
+                    child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      width: double.infinity,
                       child: SelectableText(
                         "${answer.answer}",
                         style: const TextStyle(

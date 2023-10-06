@@ -11,7 +11,7 @@ class AddEntryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AddEntryView();
+    return const AddEntryView();
   }
 }
 
@@ -26,8 +26,15 @@ class AddEntryView extends HookWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title:
-            Text(DateTime.now().formatDate(pattern: "MMM. dd, yyyy - H:mm a")),
+        title: Text(
+          DateTime.now().formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
+          style: const TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -66,6 +73,7 @@ class AddEntryView extends HookWidget {
                 ),
               ),
               CustomButton(
+                color: Colors.black,
                 onPressed: () {
                   final answer = Answer(
                     answer: answerTextController.text,

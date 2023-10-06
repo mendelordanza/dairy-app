@@ -111,7 +111,7 @@ class PaywallPage extends HookWidget {
                       isLoading.value = false;
                     },
                     child: const Text(
-                      "Already Subscribed? Restore Purchase",
+                      "Restore Purchase",
                     ),
                   ),
                   Padding(
