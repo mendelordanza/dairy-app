@@ -162,7 +162,11 @@ class PaywallPage extends HookWidget {
                     ? Colors.grey.shade400
                     : Colors.black,
                 child: isLoading.value
-                    ? const Center(child: CircularProgressIndicator.adaptive())
+                    ? const Center(
+                        child: CircularProgressIndicator.adaptive(
+                          backgroundColor: Colors.white,
+                        ),
+                      )
                     : Text(
                         "Get Your $period Free Trial",
                         textAlign: TextAlign.center,

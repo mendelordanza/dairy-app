@@ -3,13 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:night_diary/domain/models/answer.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
-import 'package:night_diary/presentation/paywall/paywall_page.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../injection_container.dart';
 
@@ -27,33 +26,6 @@ class HomePage extends StatelessWidget {
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
-  showPaywall(BuildContext context) async {
-    try {
-      final offerings = await Purchases.getOfferings();
-      if (context.mounted && offerings.current != null) {
-        await showModalBottomSheet(
-          isDismissible: true,
-          isScrollControlled: true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-          ),
-          context: context,
-          builder: (BuildContext context) {
-            return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setModalState) {
-              return PaywallPage(
-                offering: offerings.current!,
-              );
-            });
-          },
-        );
-      }
-    } on PlatformException catch (e) {
-      print(e.message);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +50,17 @@ class HomeView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
             ),
             actions: [
               IconButton(
                 onPressed: () {
-                  //context.read<AuthBloc>().add(LogoutRequest());
-                  showPaywall(context);
+                  context.push(RouteStrings.settings);
                 },
                 icon: const Icon(
                   Icons.settings,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -104,7 +77,7 @@ class HomeView extends StatelessWidget {
                 extra: context.read<EntryBloc>(),
               );
             },
-            child: const Icon(Icons.edit),
+            child: const Icon(Icons.add),
           ),
         ),
       ],
@@ -137,12 +110,22 @@ class HomeView extends StatelessWidget {
                       child: CircularProgressIndicator.adaptive());
                 }
                 if (state is EntryLoaded) {
-                  return ListView.builder(
-                    itemCount: state.entries.length,
-                    itemBuilder: (context, index) {
-                      final item = state.entries[index];
-                      return EntryItem(answer: item);
-                    },
+                  if (state.entries.isNotEmpty) {
+                    return ListView.builder(
+                      itemCount: state.entries.length,
+                      itemBuilder: (context, index) {
+                        final item = state.entries[index];
+                        return EntryItem(answer: item);
+                      },
+                    );
+                  }
+                  return const Center(
+                    child: Text(
+                      "No entries. Click + to add an entry",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   );
                 }
                 return Container();
@@ -164,74 +147,105 @@ class EntryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push(RouteStrings.entry, extra: answer);
+        context.push(
+          RouteStrings.entry,
+          extra: {
+            "entryBloc": context.read<EntryBloc>(),
+            "answer": answer,
+          },
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(24.0),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24.0),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.grey.withOpacity(0.5),
-                    Colors.grey.withOpacity(0.2),
-                  ],
-                ),
+        child: Slidable(
+          // Specify a key if the Slidable is dismissible.
+          key: ValueKey(answer.id!),
+
+          // The end action pane is the one at the right or the bottom side.
+          endActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            children: [
+              SlidableAction(
+                onPressed: (context) {
+                  context.read<EntryBloc>().add(DeleteEntry(answer.id!));
+                },
+                autoClose: true,
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                icon: Icons.delete,
+                label: 'Delete',
+                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    answer.createdAt
-                        .formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
-                    style: const TextStyle(
-                      color: Colors.white,
+            ],
+          ),
+
+          // The child of the Slidable is what the user sees when the
+          // component is not dragged.
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(24.0),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24.0),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.grey.withOpacity(0.5),
+                      Colors.grey.withOpacity(0.2),
+                    ],
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      answer.createdAt
+                          .formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  Text(
-                    "${answer.answer}",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      height: 1.5,
-                      color: Colors.white,
+                    const SizedBox(
+                      height: 16.0,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (answer.quote != null)
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-                        const Divider(
-                          color: Colors.grey,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '" ${answer.quote} "',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w700,
-                              height: 1.3,
-                              color: Colors.white,
+                    Text(
+                      "${answer.answer}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        height: 1.5,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (answer.quote != null)
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          const Divider(
+                            color: Colors.grey,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '" ${answer.quote} "',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w700,
+                                height: 1.3,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                ],
+                        ],
+                      )
+                  ],
+                ),
               ),
             ),
           ),

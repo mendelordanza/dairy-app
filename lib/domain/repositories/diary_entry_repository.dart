@@ -5,7 +5,7 @@ abstract class DiaryEntryRepository {
 
   Future<Answer?> addEntry({required Answer answer});
 
-  Future<void> editEntry();
+  Future<Answer?> editEntry({required Answer answer});
 
-  Future<void> deleteEntry();
+  Future<int?> deleteEntry({required int id});
 }

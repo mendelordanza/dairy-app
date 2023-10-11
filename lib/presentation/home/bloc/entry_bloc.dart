@@ -14,6 +14,8 @@ class EntryBloc extends Bloc<EntryEvent, EntryState> {
   EntryBloc(this.diaryEntryRepository) : super(EntryInitial()) {
     on<LoadEntries>(loadEntries);
     on<AddEntry>(addEntry);
+    on<EditEntry>(editEntry);
+    on<DeleteEntry>(deleteEntry);
 
     add(LoadEntries());
   }
@@ -30,6 +32,25 @@ class EntryBloc extends Bloc<EntryEvent, EntryState> {
     if (answer != null) {
       emit(EntryAdded(answer.id!, event.answer.answer!));
       add(LoadEntries());
+    }
+  }
+
+  editEntry(EditEntry event, Emitter<EntryState> emit) async {
+    final answer = await diaryEntryRepository.editEntry(answer: event.answer);
+    if (answer != null) {
+      emit(EntryAdded(answer.id!, event.answer.answer!));
+      add(LoadEntries());
+    }
+  }
+
+  deleteEntry(DeleteEntry event, Emitter<EntryState> emit) async {
+    final id = await diaryEntryRepository.deleteEntry(id: event.id);
+    if (id != null) {
+      print("ID: $id");
+      final currentState = state as EntryLoaded;
+      List<Answer> newEntries = List.from(currentState.entries)
+        ..removeWhere((element) => element.id == id);
+      emit(EntryLoaded(newEntries));
     }
   }
 }

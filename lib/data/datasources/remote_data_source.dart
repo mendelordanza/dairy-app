@@ -6,9 +6,9 @@ abstract class RemoteDataSource {
 
   Future<Answer?> addEntry({required Answer answer});
 
-  Future<void> editEntry();
+  Future<Answer?> editEntry({required Answer answer});
 
-  Future<void> deleteEntry();
+  Future<int?> deleteEntry({required int id});
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -28,15 +28,25 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future<void> deleteEntry() {
-    // TODO: implement deleteEntry
-    throw UnimplementedError();
+  Future<int?> deleteEntry({required int id}) async {
+    final data = await supabaseClient
+        .from("answers")
+        .delete()
+        .eq("id", id)
+        .select()
+        .single();
+    return Answer.fromJson(data).id;
   }
 
   @override
-  Future<void> editEntry() {
-    // TODO: implement editEntry
-    throw UnimplementedError();
+  Future<Answer?> editEntry({required Answer answer}) async {
+    final data = await supabaseClient
+        .from("answers")
+        .update(answer.toJson())
+        .eq("id", answer.id)
+        .select()
+        .single();
+    return Answer.fromJson(data);
   }
 
   @override

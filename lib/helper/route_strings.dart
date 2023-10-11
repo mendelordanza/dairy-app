@@ -5,4 +5,5 @@ class RouteStrings {
   static const String addEntry = '/addEntry';
   static const String quote = '/quote';
   static const String entry = '/entry';
+  static const String settings = '/settings';
 }

@@ -19,6 +19,22 @@ class AddEntry extends EntryEvent {
   List<Object> get props => [answer];
 }
 
+class EditEntry extends EntryEvent {
+  final Answer answer;
+
+  EditEntry(this.answer);
+
+  @override
+  List<Object> get props => [answer];
+}
+
 class UpdateEntry extends EntryEvent {}
 
-class DeleteEntry extends EntryEvent {}
+class DeleteEntry extends EntryEvent {
+  final int id;
+
+  DeleteEntry(this.id);
+
+  @override
+  List<Object> get props => [id];
+}

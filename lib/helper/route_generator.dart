@@ -7,6 +7,7 @@ import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/home/entry_page.dart';
 import 'package:night_diary/presentation/landing_page.dart';
 import 'package:night_diary/presentation/quote/generate_quote_page.dart';
+import 'package:night_diary/presentation/settings/settings_page.dart';
 
 import '../domain/models/answer.dart';
 
@@ -49,8 +50,18 @@ class RouteGenerator {
           name: RouteStrings.entry,
           path: RouteStrings.entry,
           builder: (context, state) {
-            final args = state.extra as Answer;
-            return EntryPage(answer: args);
+            final args = state.extra as Map<String, dynamic>;
+            return EntryPage(
+              bloc: args["entryBloc"] as EntryBloc,
+              answer: args["answer"] as Answer,
+            );
+          },
+        ),
+        GoRoute(
+          name: RouteStrings.settings,
+          path: RouteStrings.settings,
+          builder: (context, state) {
+            return SettingsPage();
           },
         ),
       ],

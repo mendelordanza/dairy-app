@@ -17,15 +17,13 @@ class DiaryEntryRepositoryImpl extends DiaryEntryRepository {
   }
 
   @override
-  Future<void> deleteEntry() {
-    // TODO: implement deleteEntry
-    throw UnimplementedError();
+  Future<int?> deleteEntry({required int id}) async {
+    return await remoteDataSource.deleteEntry(id: id);
   }
 
   @override
-  Future<void> editEntry() {
-    // TODO: implement editEntry
-    throw UnimplementedError();
+  Future<Answer?> editEntry({required Answer answer}) async {
+    return await remoteDataSource.editEntry(answer: answer);
   }
 
   @override

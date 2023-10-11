@@ -11,12 +11,14 @@ class AddEntryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AddEntryView();
+    return AddEntryView();
   }
 }
 
 class AddEntryView extends HookWidget {
-  const AddEntryView({super.key});
+  AddEntryView({super.key});
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +58,26 @@ class AddEntryView extends HookWidget {
                     const SizedBox(
                       height: 16.0,
                     ),
-                    TextField(
-                      controller: answerTextController,
-                      maxLines: null,
-                      autofocus: true,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Write your thoughts...',
-                      ),
-                      style: const TextStyle(
-                        height: 1.5,
-                        fontWeight: FontWeight.w500,
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        controller: answerTextController,
+                        maxLines: null,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Write your thoughts...',
+                        ),
+                        style: const TextStyle(
+                          height: 1.5,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return "Please add an entry";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -75,12 +86,14 @@ class AddEntryView extends HookWidget {
               CustomButton(
                 color: Colors.black,
                 onPressed: () {
-                  final answer = Answer(
-                    answer: answerTextController.text,
-                    updatedAt: DateTime.now(),
-                    createdAt: DateTime.now(),
-                  );
-                  context.read<EntryBloc>().add(AddEntry(answer));
+                  if (_formKey.currentState!.validate()) {
+                    final answer = Answer(
+                      answer: answerTextController.text,
+                      updatedAt: DateTime.now(),
+                      createdAt: DateTime.now(),
+                    );
+                    context.read<EntryBloc>().add(AddEntry(answer));
+                  }
                 },
                 child: const Text("Next"),
               ),
