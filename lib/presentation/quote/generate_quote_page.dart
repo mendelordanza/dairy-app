@@ -128,7 +128,9 @@ class GenerateQuoteView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              CircularProgressIndicator.adaptive(),
+                              CircularProgressIndicator.adaptive(
+                                backgroundColor: Colors.white,
+                              ),
                               Text(
                                 " Please wait.",
                                 style: TextStyle(color: Colors.white),
@@ -145,11 +147,24 @@ class GenerateQuoteView extends StatelessWidget {
                           onPressed: () {
                             context.read<QuoteBloc>().add(GenerateQuote(text));
                           },
-                          child: const Text(
-                            "Generate Quote",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.format_quote_rounded,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                " Click here to generate quote",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Icon(
+                                Icons.format_quote_rounded,
+                                color: Colors.white,
+                              ),
+                            ],
                           ),
                         ),
                       );

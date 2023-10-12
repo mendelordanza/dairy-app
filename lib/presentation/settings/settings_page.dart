@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:night_diary/presentation/auth/auth_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -142,6 +144,25 @@ class SettingsPage extends StatelessWidget {
                             ),
                             iconBackgroundColor: const Color(0xFF42a68a),
                             label: "Privacy Policy",
+                          ),
+                        ],
+                      ),
+                      SettingsContainer(
+                        settingItems: [
+                          SettingItem(
+                            onTap: () {
+                              context.read<AuthBloc>().add(LogoutRequest());
+                              context.pop();
+                            },
+                            icon: const Center(
+                              child: Icon(
+                                Icons.logout,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                            iconBackgroundColor: Colors.deepOrangeAccent,
+                            label: "Logout",
                           ),
                         ],
                       ),

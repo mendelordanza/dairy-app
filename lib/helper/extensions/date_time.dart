@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 extension DateTimeExtension on DateTime? {
   String formatDate({required String pattern}) {
@@ -61,5 +62,20 @@ extension DateTimeExtension on DateTime? {
   DateTime getLast7Days() {
     final startOfWeek = this!.subtract(const Duration(days: 6));
     return startOfWeek;
+  }
+
+  String greetings() {
+    final tz.TZDateTime nowTimezone = tz.TZDateTime.from(
+      this!,
+      tz.local,
+    );
+    final hour = nowTimezone.hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 18) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
   }
 }

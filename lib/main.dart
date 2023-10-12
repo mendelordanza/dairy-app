@@ -15,9 +15,12 @@ import 'config_reader.dart';
 import 'firebase_options.dart';
 import 'helper/constants.dart';
 import 'injection_container.dart' as di;
+import 'package:timezone/data/latest.dart' as tzdata;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  tzdata.initializeTimeZones();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

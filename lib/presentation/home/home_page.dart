@@ -45,9 +45,9 @@ class HomeView extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: false,
-            title: const Text(
-              "Good evening, Ralph!",
-              style: TextStyle(
+            title: Text(
+              "${DateTime.now().greetings()}!",
+              style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,

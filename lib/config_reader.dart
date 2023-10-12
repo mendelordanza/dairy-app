@@ -12,7 +12,7 @@ abstract class ConfigReader {
     if (platform.packageName.contains(".dev")) {
       configString = await rootBundle.loadString('config/app_config_dev.json');
     } else {
-      configString = await rootBundle.loadString('config/app_config_dev.json');
+      configString = await rootBundle.loadString('config/app_config.json');
     }
     _config = json.decode(configString) as Map<String, dynamic>;
   }
