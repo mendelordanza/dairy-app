@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OnboardingBloc, OnboardingState>(
         builder: (context, state) {
-      if (state is OnboardingLoaded && state.isFinished) {
+      if (state is OnboardingLoaded && !state.isFinished) {
         return const WelcomePage();
       } else {
         return const LandingPage();
