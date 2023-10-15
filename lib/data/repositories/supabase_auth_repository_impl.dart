@@ -110,15 +110,32 @@ class SupabaseAuthRepositoryImpl extends AuthRepository {
   @override
   Future<void> signInWithEmail(
       {required String email, required String password}) async {
-    throw UnimplementedError();
+    try {
+      final response = await supabaseClient.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      print("SESSION: ${response.session!.user}");
+    } on AuthException catch (e) {
+      print("Something went wrong. ${e}");
+    }
   }
 
   @override
-  Future<void> signUpWithEmail({
+  Future<bool> signUpWithEmail({
     required String email,
     required String password,
   }) async {
-    throw UnimplementedError();
+    try {
+      final response = await supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+      );
+      return response.user != null;
+    } on AuthException catch (e) {
+      print("Something went wrong. ${e}");
+      return false;
+    }
   }
 
   @override

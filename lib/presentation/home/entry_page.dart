@@ -118,7 +118,7 @@ class EntryView extends HookWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: CustomButton(
-                  color: Colors.black,
+                  backgroundColor: Colors.black,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       final newAnswer = answer.copyWith(

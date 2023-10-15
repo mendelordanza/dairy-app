@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:night_diary/helper/route_strings.dart';
+import 'package:night_diary/presentation/auth/sign_up_page.dart';
+import 'package:night_diary/presentation/auth/confirmation_page.dart';
 import 'package:night_diary/presentation/home/add_entry_page.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/home/entry_page.dart';
@@ -62,6 +64,20 @@ class RouteGenerator {
           path: RouteStrings.settings,
           builder: (context, state) {
             return SettingsPage();
+          },
+        ),
+        GoRoute(
+          name: RouteStrings.signUp,
+          path: RouteStrings.signUp,
+          builder: (context, state) {
+            return SignUpPage();
+          },
+        ),
+        GoRoute(
+          name: RouteStrings.confirmation,
+          path: RouteStrings.confirmation,
+          builder: (context, state) {
+            return ConfirmationPage();
           },
         ),
       ],

@@ -3,6 +3,8 @@ part of 'auth_bloc.dart';
 enum AuthStatus {
   authenticated,
   unauthenticated,
+  loading,
+  needConfirmation,
 }
 
 class AuthState extends Equatable {
@@ -23,6 +25,16 @@ class AuthState extends Equatable {
   const AuthState.unauthenticated()
       : this._(
           status: AuthStatus.unauthenticated,
+        );
+
+  const AuthState.loading()
+      : this._(
+          status: AuthStatus.loading,
+        );
+
+  const AuthState.needConfirmation()
+      : this._(
+          status: AuthStatus.needConfirmation,
         );
 
   @override

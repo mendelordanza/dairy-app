@@ -84,7 +84,8 @@ class AddEntryView extends HookWidget {
                 ),
               ),
               CustomButton(
-                color: Colors.black,
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final answer = Answer(

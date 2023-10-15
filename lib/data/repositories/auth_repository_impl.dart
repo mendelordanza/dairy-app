@@ -63,15 +63,17 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<void> signUpWithEmail({
+  Future<bool> signUpWithEmail({
     required String email,
     required String password,
   }) async {
     try {
       await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      return true;
     } on FirebaseAuthException {
       print("Something went wrong.");
+      return false;
     }
   }
 

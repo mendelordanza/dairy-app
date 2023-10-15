@@ -158,7 +158,7 @@ class PaywallPage extends HookWidget {
                     isLoading.value = false;
                   }
                 },
-                color: selectedIndex.value == -1
+                backgroundColor: selectedIndex.value == -1
                     ? Colors.grey.shade400
                     : Colors.black,
                 child: isLoading.value

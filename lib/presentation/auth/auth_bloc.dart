@@ -54,9 +54,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         email: event.email, password: event.password);
   }
 
-  _signUpWithEmail(SignUpWithEmail event, Emitter<AuthState> emit) {
-    _authRepository.signUpWithEmail(
+  _signUpWithEmail(SignUpWithEmail event, Emitter<AuthState> emit) async {
+    emit(const AuthState.loading());
+    final signedUp = await _authRepository.signUpWithEmail(
         email: event.email, password: event.password);
+    if (signedUp) {
+      emit(const AuthState.needConfirmation());
+    }
   }
 
   _logout(LogoutRequest event, Emitter<AuthState> emit) {

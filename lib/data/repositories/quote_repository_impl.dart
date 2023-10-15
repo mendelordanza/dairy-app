@@ -39,7 +39,7 @@ class QuoteRepositoryImpl extends QuoteRepository {
               role: "user",
               content: "Can you give me a quote related on the statement below?"
                   " In JSON format with quote field only. No prose. No author name."
-                  " No redundancy. Make sure it is in english - '$prompt'",
+                  " No redundancy. 1-3 lines max. Make sure it is in english - '$prompt'",
             )
           ],
         ).toJson()),

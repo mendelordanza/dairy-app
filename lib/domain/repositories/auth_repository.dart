@@ -5,7 +5,7 @@ abstract class AuthRepository {
 
   Stream<UserModel> get fetchUserChanges;
 
-  Future<void> signUpWithEmail({
+  Future<bool> signUpWithEmail({
     required String email,
     required String password,
   });
