@@ -178,67 +178,61 @@ class EntryItem extends StatelessWidget {
 
           // The child of the Slidable is what the user sees when the
           // component is not dragged.
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(24.0),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24.0),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.grey.withOpacity(0.5),
-                      Colors.grey.withOpacity(0.2),
-                    ],
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      answer.createdAt
-                          .formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                    Text(
-                      "${answer.answer}",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (answer.quote != null)
-                      Column(
-                        children: [
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                          const Divider(
-                            color: Colors.grey,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '" ${answer.quote} "',
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w700,
-                                height: 1.3,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                  ],
-                ),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24.0),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.grey.shade700.withOpacity(0.9),
+                  Colors.grey.shade800.withOpacity(0.7),
+                ],
               ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  answer.createdAt
+                      .formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  "${answer.answer}",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (answer.quote != null)
+                  Column(
+                    children: [
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      const Divider(
+                        color: Colors.grey,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '" ${answer.quote} "',
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w700,
+                            height: 1.3,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+              ],
             ),
           ),
         ),

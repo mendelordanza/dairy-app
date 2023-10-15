@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:night_diary/helper/extensions/gorouter.dart';
+import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../injection_container.dart';
-import '../paywall/paywall_page.dart';
 import '../quote/bloc/quote_event.dart';
 import '../widgets/custom_button.dart';
 
@@ -35,37 +35,6 @@ class OnboardingGenerateQuoteView extends StatelessWidget {
   final String text;
 
   const OnboardingGenerateQuoteView({required this.text, super.key});
-
-  showPaywall(BuildContext context) async {
-    try {
-      final offerings = await Purchases.getOfferings();
-      if (context.mounted && offerings.current != null) {
-        await showModalBottomSheet(
-          isDismissible: true,
-          isScrollControlled: true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-          ),
-          context: context,
-          builder: (BuildContext context) {
-            return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setModalState) {
-              return PaywallPage(
-                offering: offerings.current!,
-                isFromOnboarding: true,
-              );
-            });
-          },
-        ).then((value) {
-          context.pop();
-          context.read<OnboardingBloc>().add(FinishOnboarding());
-        });
-      }
-    } on PlatformException catch (e) {
-      print(e.message);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +183,8 @@ class OnboardingGenerateQuoteView extends StatelessWidget {
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           onPressed: () {
-            showPaywall(context);
+            GoRouter.of(context).popUntilPath(context, RouteStrings.main);
+            context.read<OnboardingBloc>().add(FinishOnboarding());
           },
           child: const Text("I'm ready!"
               ""),

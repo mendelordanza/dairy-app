@@ -81,7 +81,7 @@ class OnboardingAddEntryView extends HookWidget {
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.white,
                 onPressed: () {
-                  context.pushReplacement(
+                  context.push(
                     RouteStrings.onboardingQuote,
                     extra: {
                       "prompt": answerTextController.text,
