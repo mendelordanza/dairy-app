@@ -83,7 +83,7 @@ class PaywallPage extends HookWidget {
                           height: 150.0,
                         ),
                         const Text(
-                          "Unlock Unlimited Quotes",
+                          "Unlock Unlimited Affirmations",
                           style: TextStyle(
                             fontSize: 30.0,
                             fontWeight: FontWeight.w800,
@@ -94,7 +94,7 @@ class PaywallPage extends HookWidget {
                           height: 16.0,
                         ),
                         const Text(
-                          "Generate unlimited personal, inspiring, and motivating quotes whenever you want",
+                          "Generate unlimited personal, inspirational, and motivational affirmations whenever and wherever",
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w700,
@@ -158,9 +158,6 @@ class PaywallPage extends HookWidget {
                     isLoading.value = false;
                   }
                 },
-                backgroundColor: selectedIndex.value == -1
-                    ? Colors.grey.shade400
-                    : Colors.black,
                 child: isLoading.value
                     ? const Center(
                         child: CircularProgressIndicator.adaptive(
@@ -178,12 +175,15 @@ class PaywallPage extends HookWidget {
               ),
             ),
             if (isFromOnboarding)
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("I'll do it later"),
-              )
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("I'll do it later"),
+                ),
+              ),
           ],
         ),
       ),
@@ -244,8 +244,12 @@ class PaywallPage extends HookWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
-            color: isSelected ? Colors.black : Colors.white70,
-            border: isSelected ? null : Border.all(color: Colors.grey),
+            color: isSelected ? Colors.black : Theme.of(context).cardColor,
+            border: isSelected
+                ? null
+                : Border.all(
+                    color: Colors.grey.shade200,
+                  ),
           ),
           padding: const EdgeInsets.all(24.0),
           child: Row(
@@ -280,7 +284,7 @@ class PaywallPage extends HookWidget {
                             text: TextSpan(
                               style: TextStyle(
                                 fontFamily: "Montserrat",
-                                color: Theme.of(context).colorScheme.onSurface,
+                                color: Colors.black,
                               ),
                               children: [
                                 const TextSpan(
@@ -306,7 +310,6 @@ class PaywallPage extends HookWidget {
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w700,
-                            color: isSelected ? Colors.white : Colors.black,
                           ),
                         ),
                         const SizedBox(
@@ -314,9 +317,8 @@ class PaywallPage extends HookWidget {
                         ),
                         RichText(
                           text: TextSpan(
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Montserrat",
-                              color: isSelected ? Colors.white : Colors.black,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w500,
                             ),

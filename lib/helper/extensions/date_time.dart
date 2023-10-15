@@ -78,4 +78,16 @@ extension DateTimeExtension on DateTime? {
     }
     return 'Good Evening';
   }
+
+  bool isMorning() {
+    final tz.TZDateTime nowTimezone = tz.TZDateTime.from(
+      this!,
+      tz.local,
+    );
+    final hour = nowTimezone.hour;
+    if (hour < 12) {
+      return true;
+    }
+    return false;
+  }
 }

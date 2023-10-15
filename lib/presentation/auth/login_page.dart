@@ -40,7 +40,7 @@ class LoginPage extends HookWidget {
                       height: 10.0,
                     ),
                     const Text(
-                      "Diary + Affirmations",
+                      "Your Diary + Affirmations",
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.w500,
@@ -122,6 +122,7 @@ class LoginPage extends HookWidget {
                     ),
                     CustomButton(
                       backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
                       onPressed: () {
                         context.read<AuthBloc>().add(SignInWithGoogle());
                       },

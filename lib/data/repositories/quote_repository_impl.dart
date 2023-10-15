@@ -33,7 +33,7 @@ class QuoteRepositoryImpl extends QuoteRepository {
           messages: [
             Message(
               role: "system",
-              content: "You are a motiviational speaker.",
+              content: "You are a motiviational/health and wellness speaker.",
             ),
             Message(
               role: "user",

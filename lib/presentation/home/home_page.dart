@@ -45,12 +45,11 @@ class HomeView extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: false,
-            title: Text(
-              "${DateTime.now().greetings()}!",
-              style: const TextStyle(
+            title: const Text(
+              "Welcome back!",
+              style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w700,
-                color: Colors.white,
               ),
             ),
             actions: [
@@ -60,7 +59,6 @@ class HomeView extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.settings,
-                  color: Colors.white,
                 ),
               ),
             ],
@@ -70,7 +68,6 @@ class HomeView extends StatelessWidget {
             child: _buildBody(context),
           ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.black,
             onPressed: () {
               context.push(
                 RouteStrings.addEntry,
@@ -204,9 +201,6 @@ class EntryItem extends StatelessWidget {
                     Text(
                       answer.createdAt
                           .formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
                     ),
                     const SizedBox(
                       height: 16.0,
@@ -216,7 +210,6 @@ class EntryItem extends StatelessWidget {
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: Colors.white,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -238,7 +231,6 @@ class EntryItem extends StatelessWidget {
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w700,
                                 height: 1.3,
-                                color: Colors.white,
                               ),
                             ),
                           ),

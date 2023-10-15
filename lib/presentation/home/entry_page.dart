@@ -43,14 +43,8 @@ class EntryView extends HookWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        iconTheme: const IconThemeData(
-          color: Colors.black,
-        ),
         title: Text(
           DateTime.now().formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
-          style: const TextStyle(
-            color: Colors.black,
-          ),
         ),
         actions: [
           IconButton(
@@ -118,7 +112,6 @@ class EntryView extends HookWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: CustomButton(
-                  backgroundColor: Colors.black,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       final newAnswer = answer.copyWith(

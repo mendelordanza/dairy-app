@@ -30,12 +30,6 @@ class AddEntryView extends HookWidget {
         centerTitle: true,
         title: Text(
           DateTime.now().formatDate(pattern: "MMM. dd, yyyy - H:mm a"),
-          style: const TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        iconTheme: const IconThemeData(
-          color: Colors.black,
         ),
       ),
       body: SafeArea(
@@ -73,7 +67,7 @@ class AddEntryView extends HookWidget {
                           fontWeight: FontWeight.w500,
                         ),
                         validator: (value) {
-                          if (value == null) {
+                          if (value == null || value.isEmpty) {
                             return "Please add an entry";
                           }
                           return null;
@@ -84,8 +78,6 @@ class AddEntryView extends HookWidget {
                 ),
               ),
               CustomButton(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final answer = Answer(

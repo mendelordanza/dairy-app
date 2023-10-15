@@ -9,6 +9,7 @@ class MyThemes {
     colorScheme: const ColorScheme.dark(
       onSurface: Colors.white,
       primary: primaryColor,
+      secondary: secondaryColor,
     ),
     primaryColor: primaryColor,
     cardColor: darkCardColor,
@@ -31,6 +32,12 @@ class MyThemes {
         foregroundColor: Colors.white,
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+      ),
+    ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: primaryColor,
       linearTrackColor: Colors.grey,
@@ -42,11 +49,12 @@ class MyThemes {
     colorScheme: const ColorScheme.light(
       onSurface: Colors.black,
       primary: primaryColor,
+      secondary: secondaryColor,
     ),
     cardColor: lightCardColor,
     primaryColor: primaryColor,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: primaryColor,
+      backgroundColor: Colors.black,
       foregroundColor: Colors.white,
     ),
     fontFamily: "Montserrat",
@@ -65,6 +73,12 @@ class MyThemes {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: Colors.black,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(

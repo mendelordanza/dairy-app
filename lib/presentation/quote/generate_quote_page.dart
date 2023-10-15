@@ -75,8 +75,7 @@ class GenerateQuoteView extends StatelessWidget {
         SizedBox(
           height: double.maxFinite,
           width: double.maxFinite,
-          child: Image.asset(
-            "assets/background.png",
+          child: Image.asset("assets/background.png",
             fit: BoxFit.fill,
           ),
         ),
@@ -86,11 +85,7 @@ class GenerateQuoteView extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.transparent,
             title: const Text(
-              "Your Quote",
-              style: TextStyle(color: Colors.white),
-            ),
-            iconTheme: const IconThemeData(
-              color: Colors.white,
+              "Your Affirmation",
             ),
           ),
           body: Padding(
@@ -152,17 +147,12 @@ class GenerateQuoteView extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.format_quote_rounded,
-                                color: Colors.white,
                               ),
                               Text(
                                 " Click here to generate quote",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
                               ),
                               Icon(
                                 Icons.format_quote_rounded,
-                                color: Colors.white,
                               ),
                             ],
                           ),
@@ -196,7 +186,6 @@ class GenerateQuoteView extends StatelessWidget {
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,
                       height: 1.6,
-                      color: Colors.white,
                     ),
                     textAlign: TextAlign.center,
                     speed: const Duration(
@@ -218,13 +207,9 @@ class GenerateQuoteView extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.share,
-                      color: Colors.white,
                     ),
                     Text(
                       " Share",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
                     ),
                   ],
                 ),
@@ -256,13 +241,9 @@ class GenerateQuoteView extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.refresh,
-                        color: Colors.white,
                       ),
                       Text(
                         " Regenerate",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
                       ),
                     ],
                   ),
@@ -284,13 +265,9 @@ class GenerateQuoteView extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.save,
-                    color: Colors.white,
                   ),
                   Text(
                     " Save",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
                   ),
                 ],
               ),

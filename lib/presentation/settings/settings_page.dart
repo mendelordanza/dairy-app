@@ -30,7 +30,7 @@ class SettingsPage extends StatelessWidget {
         await showModalBottomSheet(
           isDismissible: true,
           isScrollControlled: true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Theme.of(context).cardColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
           ),

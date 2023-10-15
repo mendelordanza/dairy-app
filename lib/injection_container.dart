@@ -10,8 +10,10 @@ import 'package:night_diary/data/repositories/quote_repository_impl.dart';
 import 'package:night_diary/data/repositories/supabase_auth_repository_impl.dart';
 import 'package:night_diary/domain/repositories/auth_repository.dart';
 import 'package:night_diary/domain/repositories/quote_repository.dart';
+import 'package:night_diary/helper/shared_prefs.dart';
 import 'package:night_diary/presentation/auth/auth_bloc.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -34,6 +36,9 @@ Future<void> setup() async {
   );
   getIt.registerFactory(
     () => PurchaseBloc(),
+  );
+  getIt.registerFactory(
+    () => OnboardingBloc(sharedPrefs: getIt()),
   );
 
   //Repository
@@ -79,4 +84,6 @@ Future<void> setup() async {
         maxWidth: 90));
     return dio;
   });
+
+  getIt.registerLazySingleton<SharedPrefs>(() => SharedPrefs());
 }
