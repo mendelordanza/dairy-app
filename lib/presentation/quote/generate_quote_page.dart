@@ -11,21 +11,24 @@ import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-import '../../injection_container.dart';
 import '../paywall/paywall_page.dart';
 import 'bloc/quote_event.dart';
 
 class GenerateQuotePage extends StatelessWidget {
+  final QuoteBloc bloc;
   final int answerId;
   final String text;
 
   const GenerateQuotePage(
-      {required this.answerId, required this.text, super.key});
+      {required this.bloc,
+      required this.answerId,
+      required this.text,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<QuoteBloc>(),
+    return BlocProvider.value(
+      value: bloc,
       child: GenerateQuoteView(
         answerId: answerId,
         text: text,
@@ -75,7 +78,8 @@ class GenerateQuoteView extends StatelessWidget {
         SizedBox(
           height: double.maxFinite,
           width: double.maxFinite,
-          child: Image.asset("assets/background.png",
+          child: Image.asset(
+            "assets/background.png",
             fit: BoxFit.fill,
           ),
         ),
@@ -140,7 +144,23 @@ class GenerateQuoteView extends StatelessWidget {
                       return Center(
                         child: TextButton(
                           onPressed: () {
-                            context.read<QuoteBloc>().add(GenerateQuote(text));
+                            context
+                                .read<PurchaseBloc>()
+                                .add(CheckEntitlement());
+                            final purchaseState = context
+                                .read<PurchaseBloc>()
+                                .state as PurchaseLoaded;
+                            final totalCount =
+                                context.read<QuoteBloc>().totalGeneratedQuote;
+                            if ((state is PurchaseLoaded &&
+                                    purchaseState.entitled) ||
+                                totalCount == 0) {
+                              context
+                                  .read<QuoteBloc>()
+                                  .add(GenerateQuote(text));
+                            } else {
+                              showPaywall(context);
+                            }
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -149,7 +169,7 @@ class GenerateQuoteView extends StatelessWidget {
                                 Icons.format_quote_rounded,
                               ),
                               Text(
-                                " Click here to generate quote",
+                                "Click here to generate affirmation",
                               ),
                               Icon(
                                 Icons.format_quote_rounded,

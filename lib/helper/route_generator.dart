@@ -13,6 +13,7 @@ import 'package:night_diary/presentation/landing_page.dart';
 import 'package:night_diary/presentation/main_page.dart';
 import 'package:night_diary/presentation/onboarding/onboarding_add_entry_page.dart';
 import 'package:night_diary/presentation/onboarding/onboarding_generate_quote_page.dart';
+import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:night_diary/presentation/quote/generate_quote_page.dart';
 import 'package:night_diary/presentation/settings/settings_page.dart';
 
@@ -55,9 +56,10 @@ class RouteGenerator {
           name: RouteStrings.addEntry,
           path: RouteStrings.addEntry,
           builder: (context, state) {
-            return BlocProvider.value(
-              value: state.extra as EntryBloc,
-              child: const AddEntryPage(),
+            final args = state.extra as Map<String, dynamic>;
+            return AddEntryPage(
+              entryBloc: args["entryBloc"] as EntryBloc,
+              quoteBloc: args["quoteBloc"] as QuoteBloc,
             );
           },
         ),
@@ -69,6 +71,7 @@ class RouteGenerator {
             return BlocProvider.value(
               value: args["entryBloc"] as EntryBloc,
               child: GenerateQuotePage(
+                bloc: args["quoteBloc"] as QuoteBloc,
                 answerId: args["answerId"],
                 text: args["prompt"],
               ),
@@ -82,6 +85,7 @@ class RouteGenerator {
             final args = state.extra as Map<String, dynamic>;
             return EntryPage(
               bloc: args["entryBloc"] as EntryBloc,
+              quoteBloc: args["quoteBloc"] as QuoteBloc,
               answer: args["answer"] as Answer,
             );
           },

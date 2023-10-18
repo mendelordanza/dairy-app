@@ -123,7 +123,7 @@ class OnboardingGenerateQuoteView extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               Text(
-                                " Click here to generate quote",
+                                " Click here to generate affirmation",
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -186,7 +186,7 @@ class OnboardingGenerateQuoteView extends StatelessWidget {
             GoRouter.of(context).popUntilPath(context, RouteStrings.main);
             context.read<OnboardingBloc>().add(FinishOnboarding());
           },
-          child: const Text("I'm ready!"
+          child: const Text("I'm ready to use the app!"
               ""),
         ),
       ],

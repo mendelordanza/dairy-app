@@ -8,6 +8,10 @@ abstract class QuoteEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class ResetQuote extends QuoteEvent {}
+
+class ResetCount extends QuoteEvent {}
+
 class GenerateQuote extends QuoteEvent {
   final String prompt;
 

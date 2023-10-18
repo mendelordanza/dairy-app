@@ -4,19 +4,33 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
 
 import '../../domain/models/answer.dart';
+import '../quote/bloc/quote_bloc.dart';
+import '../quote/bloc/quote_event.dart';
 import '../widgets/custom_button.dart';
 import 'bloc/entry_bloc.dart';
 
 class EntryPage extends StatelessWidget {
   final Answer answer;
   final EntryBloc bloc;
+  final QuoteBloc quoteBloc;
 
-  const EntryPage({required this.bloc, required this.answer, super.key});
+  const EntryPage(
+      {required this.quoteBloc,
+      required this.bloc,
+      required this.answer,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: bloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: bloc,
+        ),
+        BlocProvider.value(
+          value: quoteBloc,
+        ),
+      ],
       child: EntryView(answer: answer),
     );
   }
@@ -120,6 +134,7 @@ class EntryView extends HookWidget {
                         createdAt: DateTime.now(),
                       );
                       context.read<EntryBloc>().add(EditEntry(newAnswer));
+                      context.read<QuoteBloc>().add(ResetQuote());
                     }
                   },
                   child: const Text("Save"),

@@ -58,6 +58,7 @@ class OnboardingAddEntryView extends HookWidget {
                         controller: answerTextController,
                         maxLines: null,
                         autofocus: true,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Write your thoughts...',
@@ -78,8 +79,6 @@ class OnboardingAddEntryView extends HookWidget {
                 ),
               ),
               CustomButton(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
                 onPressed: () {
                   context.push(
                     RouteStrings.onboardingQuote,

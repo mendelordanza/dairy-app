@@ -9,16 +9,25 @@ import 'package:night_diary/domain/models/answer.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 
 import '../../injection_container.dart';
+import '../quote/bloc/quote_event.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<EntryBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<EntryBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<QuoteBloc>(),
+        ),
+      ],
       child: const HomeView(),
     );
   }
@@ -69,9 +78,14 @@ class HomeView extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
+              context.read<QuoteBloc>().add(ResetQuote());
+              context.read<QuoteBloc>().add(ResetCount());
               context.push(
                 RouteStrings.addEntry,
-                extra: context.read<EntryBloc>(),
+                extra: {
+                  "entryBloc": context.read<EntryBloc>(),
+                  "quoteBloc": context.read<QuoteBloc>()
+                },
               );
             },
             child: const Icon(Icons.add),
@@ -94,6 +108,7 @@ class HomeView extends StatelessWidget {
                   context.push(
                     RouteStrings.quote,
                     extra: {
+                      "quoteBloc": context.read<QuoteBloc>(),
                       "entryBloc": context.read<EntryBloc>(),
                       "answerId": state.answerId,
                       "prompt": state.text,
@@ -147,6 +162,7 @@ class EntryItem extends StatelessWidget {
         context.push(
           RouteStrings.entry,
           extra: {
+            "quoteBloc": context.read<QuoteBloc>(),
             "entryBloc": context.read<EntryBloc>(),
             "answer": answer,
           },

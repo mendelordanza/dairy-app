@@ -13,9 +13,19 @@ class QuoteBloc extends Bloc<QuoteEvent, QuoteState> {
   QuoteBloc({required this.quoteRepository}) : super(QuoteInitial()) {
     on<GenerateQuote>(generateQuote);
     on<SaveQuote>(saveQuote);
+    on<ResetQuote>(resetQuote);
+    on<ResetCount>(resetCount);
   }
 
   int totalGeneratedQuote = 0;
+
+  resetCount(ResetCount event, Emitter emit) {
+    totalGeneratedQuote = 0;
+  }
+
+  resetQuote(ResetQuote event, Emitter emit) {
+    emit(QuoteInitial());
+  }
 
   generateQuote(GenerateQuote event, Emitter emit) async {
     emit(QuoteLoading());
