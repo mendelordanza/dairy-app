@@ -11,19 +11,21 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state.status == AuthStatus.needConfirmation) {
-          context.pop();
-          context.push(RouteStrings.confirmation);
-        }
-      },
-      builder: (context, state) {
-        if (state.status == AuthStatus.authenticated) {
-          return const HomePage();
-        }
-        return LoginPage();
-      },
-    );
+    return const HomePage();
+
+    // return BlocConsumer<AuthBloc, AuthState>(
+    //   listener: (context, state) {
+    //     if (state.status == AuthStatus.needConfirmation) {
+    //       context.pop();
+    //       context.push(RouteStrings.confirmation);
+    //     }
+    //   },
+    //   builder: (context, state) {
+    //     if (state.status == AuthStatus.authenticated) {
+    //       return const HomePage();
+    //     }
+    //     return LoginPage();
+    //   },
+    // );
   }
 }

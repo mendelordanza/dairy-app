@@ -28,28 +28,23 @@ class EntryBloc extends Bloc<EntryEvent, EntryState> {
   }
 
   addEntry(AddEntry event, Emitter<EntryState> emit) async {
-    final answer = await diaryEntryRepository.addEntry(answer: event.answer);
-    if (answer != null) {
-      emit(EntryAdded(answer.id!, event.answer.answer!));
-      add(LoadEntries());
-    }
+    final answerId = await diaryEntryRepository.addEntry(answer: event.answer);
+    emit(EntryAdded(event.answer.copyWith(id: answerId), event.answer.answer!));
+    add(LoadEntries());
   }
 
   editEntry(EditEntry event, Emitter<EntryState> emit) async {
-    final answer = await diaryEntryRepository.editEntry(answer: event.answer);
-    if (answer != null) {
-      emit(EntryAdded(answer.id!, event.answer.answer!));
-      add(LoadEntries());
-    }
+    final answerId = await diaryEntryRepository.editEntry(answer: event.answer);
+    emit(EntryAdded(event.answer.copyWith(id: answerId), event.answer.answer!));
+    add(LoadEntries());
   }
 
   deleteEntry(DeleteEntry event, Emitter<EntryState> emit) async {
-    final id = await diaryEntryRepository.deleteEntry(id: event.id);
-    if (id != null) {
-      print("ID: $id");
+    final deleted = await diaryEntryRepository.deleteEntry(id: event.id);
+    if (deleted) {
       final currentState = state as EntryLoaded;
       List<Answer> newEntries = List.from(currentState.entries)
-        ..removeWhere((element) => element.id == id);
+        ..removeWhere((element) => element.id == event.id);
       emit(EntryLoaded(newEntries));
     }
   }

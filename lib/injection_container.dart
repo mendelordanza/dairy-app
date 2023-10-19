@@ -49,9 +49,9 @@ Future<void> setup() async {
   getIt.registerLazySingleton<DiaryEntryRepository>(
       () => DiaryEntryRepositoryImpl(
             getIt(),
-            getIt(),
           ));
   getIt.registerLazySingleton<QuoteRepository>(() => QuoteRepositoryImpl(
+        getIt(),
         getIt(),
         getIt(),
       ));

@@ -72,7 +72,7 @@ class RouteGenerator {
               value: args["entryBloc"] as EntryBloc,
               child: GenerateQuotePage(
                 bloc: args["quoteBloc"] as QuoteBloc,
-                answerId: args["answerId"],
+                answer: args["answer"],
                 text: args["prompt"],
               ),
             );

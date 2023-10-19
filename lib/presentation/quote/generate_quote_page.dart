@@ -5,23 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:night_diary/helper/extensions/gorouter.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../../domain/models/answer.dart';
 import '../paywall/paywall_page.dart';
 import 'bloc/quote_event.dart';
 
 class GenerateQuotePage extends StatelessWidget {
   final QuoteBloc bloc;
-  final int answerId;
+  final Answer answer;
   final String text;
 
   const GenerateQuotePage(
       {required this.bloc,
-      required this.answerId,
+      required this.answer,
       required this.text,
       super.key});
 
@@ -30,7 +32,7 @@ class GenerateQuotePage extends StatelessWidget {
     return BlocProvider.value(
       value: bloc,
       child: GenerateQuoteView(
-        answerId: answerId,
+        answer: answer,
         text: text,
       ),
     );
@@ -38,11 +40,11 @@ class GenerateQuotePage extends StatelessWidget {
 }
 
 class GenerateQuoteView extends StatelessWidget {
-  final int answerId;
+  final Answer answer;
   final String text;
 
   const GenerateQuoteView(
-      {required this.answerId, required this.text, super.key});
+      {required this.answer, required this.text, super.key});
 
   showPaywall(BuildContext context) async {
     try {
@@ -115,6 +117,8 @@ class GenerateQuoteView extends StatelessWidget {
                     listener: (context, state) {
                       if (state is QuoteSaved) {
                         context.read<EntryBloc>().add(LoadEntries());
+                        GoRouter.of(context)
+                            .popUntilPath(context, RouteStrings.landing);
                       }
                     },
                     builder: (context, state) {
@@ -147,12 +151,11 @@ class GenerateQuoteView extends StatelessWidget {
                             context
                                 .read<PurchaseBloc>()
                                 .add(CheckEntitlement());
-                            final purchaseState = context
-                                .read<PurchaseBloc>()
-                                .state as PurchaseLoaded;
+                            final purchaseState =
+                                context.read<PurchaseBloc>().state;
                             final totalCount =
                                 context.read<QuoteBloc>().totalGeneratedQuote;
-                            if ((state is PurchaseLoaded &&
+                            if ((purchaseState is PurchaseLoaded &&
                                     purchaseState.entitled) ||
                                 totalCount == 0) {
                               context
@@ -274,11 +277,10 @@ class GenerateQuoteView extends StatelessWidget {
               onPressed: () {
                 context.read<QuoteBloc>().add(
                       SaveQuote(
-                        answerId,
+                        answer,
                         quote,
                       ),
                     );
-                context.go(RouteStrings.landing);
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,

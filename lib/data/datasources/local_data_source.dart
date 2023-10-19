@@ -1,21 +1,15 @@
 import 'package:night_diary/data/isar_service.dart';
 
 import '../../domain/models/answer.dart';
-import '../../domain/models/diary_entry.dart';
 
 abstract class LocalDataSource {
-  Future<List<DiaryEntry>> loadEntries();
+  Future<List<Answer>> loadEntries();
 
-  Future<int> addEntry({required DiaryEntry diaryEntry});
+  Future<int> addAnswer({required Answer answer});
 
-  Future<int> addAnswer({
-    required DiaryEntry diaryEntry,
-    required Answer answer,
-  });
+  Future<int> editEntry({required Answer answer});
 
-  Future<void> editEntry();
-
-  Future<void> deleteEntry();
+  Future<bool> deleteEntry({required int answerId});
 }
 
 class LocalDataSourceImpl extends LocalDataSource {
@@ -24,31 +18,23 @@ class LocalDataSourceImpl extends LocalDataSource {
   LocalDataSourceImpl(this._isarService);
 
   @override
-  Future<int> addEntry({required DiaryEntry diaryEntry}) async {
-    return await _isarService.saveDiaryEntry(diaryEntry.toIsar());
+  Future<bool> deleteEntry({required int answerId}) async {
+    return await _isarService.deleteDiaryEntry(answerId);
   }
 
   @override
-  Future<void> deleteEntry() {
-    // TODO: implement deleteEntry
-    throw UnimplementedError();
+  Future<int> editEntry({required Answer answer}) async {
+    return await _isarService.saveAnswer(answer.toIsar());
   }
 
   @override
-  Future<void> editEntry() {
-    // TODO: implement editEntry
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<DiaryEntry>> loadEntries() async {
+  Future<List<Answer>> loadEntries() async {
     final entries = await _isarService.getAllEntries();
-    return entries;
+    return entries.map((e) => Answer.fromJson(e.toJson())).toList();
   }
 
   @override
-  Future<int> addAnswer(
-      {required DiaryEntry diaryEntry, required Answer answer}) async {
-    return await _isarService.saveAnswer(answer.toIsar(diaryEntry: diaryEntry));
+  Future<int> addAnswer({required Answer answer}) async {
+    return await _isarService.saveAnswer(answer.toIsar());
   }
 }

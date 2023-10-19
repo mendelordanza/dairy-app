@@ -21,11 +21,8 @@ Answer _$AnswerFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Answer {
   int? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "answer")
   String? get answer => throw _privateConstructorUsedError;
-  @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "updated_at")
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get quote => throw _privateConstructorUsedError;
 
@@ -41,9 +38,9 @@ abstract class $AnswerCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      @JsonKey(name: "answer") String? answer,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      String? answer,
+      DateTime? createdAt,
+      DateTime? updatedAt,
       String? quote});
 }
 
@@ -99,9 +96,9 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      @JsonKey(name: "answer") String? answer,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      String? answer,
+      DateTime? createdAt,
+      DateTime? updatedAt,
       String? quote});
 }
 
@@ -150,11 +147,7 @@ class __$$_AnswerCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Answer extends _Answer {
   const _$_Answer(
-      {this.id,
-      @JsonKey(name: "answer") this.answer,
-      @JsonKey(name: "created_at") this.createdAt,
-      @JsonKey(name: "updated_at") this.updatedAt,
-      this.quote})
+      {this.id, this.answer, this.createdAt, this.updatedAt, this.quote})
       : super._();
 
   factory _$_Answer.fromJson(Map<String, dynamic> json) =>
@@ -163,13 +156,10 @@ class _$_Answer extends _Answer {
   @override
   final int? id;
   @override
-  @JsonKey(name: "answer")
   final String? answer;
   @override
-  @JsonKey(name: "created_at")
   final DateTime? createdAt;
   @override
-  @JsonKey(name: "updated_at")
   final DateTime? updatedAt;
   @override
   final String? quote;
@@ -215,9 +205,9 @@ class _$_Answer extends _Answer {
 abstract class _Answer extends Answer {
   const factory _Answer(
       {final int? id,
-      @JsonKey(name: "answer") final String? answer,
-      @JsonKey(name: "created_at") final DateTime? createdAt,
-      @JsonKey(name: "updated_at") final DateTime? updatedAt,
+      final String? answer,
+      final DateTime? createdAt,
+      final DateTime? updatedAt,
       final String? quote}) = _$_Answer;
   const _Answer._() : super._();
 
@@ -226,13 +216,10 @@ abstract class _Answer extends Answer {
   @override
   int? get id;
   @override
-  @JsonKey(name: "answer")
   String? get answer;
   @override
-  @JsonKey(name: "created_at")
   DateTime? get createdAt;
   @override
-  @JsonKey(name: "updated_at")
   DateTime? get updatedAt;
   @override
   String? get quote;

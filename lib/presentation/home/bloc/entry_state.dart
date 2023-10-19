@@ -12,11 +12,11 @@ class EntryInitial extends EntryState {}
 class EntryLoading extends EntryState {}
 
 class EntryAdded extends EntryState {
-  final int answerId;
+  final Answer answer;
   final String text;
 
   EntryAdded(
-    this.answerId,
+    this.answer,
     this.text,
   );
 }

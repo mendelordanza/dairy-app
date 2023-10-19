@@ -42,7 +42,7 @@ class QuoteBloc extends Bloc<QuoteEvent, QuoteState> {
 
   saveQuote(SaveQuote event, Emitter emit) async {
     await quoteRepository.saveQuote(
-        answerId: event.answerId, quote: event.quote);
+        answer: event.answer, quote: event.quote);
     emit(QuoteSaved());
   }
 }

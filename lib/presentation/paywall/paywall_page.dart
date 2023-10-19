@@ -141,6 +141,8 @@ class PaywallPage extends HookWidget {
                     padding:
                         EdgeInsets.only(bottom: isFromOnboarding ? 0.0 : 24.0),
                     child: CustomButton(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
                       height: 60.0,
                       onPressed: () async {
                         isLoading.value = true;
@@ -272,9 +274,52 @@ class PaywallPage extends HookWidget {
                 },
               ),
               Expanded(
-                child: Column(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            item.storeProduct.title
+                                .replaceAll(RegExp('\\(.*?\\)'), ''),
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                fontFamily: "Montserrat",
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "Get ${DateHelper.getPeriod(
+                                    value: item.storeProduct.introductoryPrice!
+                                        .periodNumberOfUnits,
+                                    unit: item.storeProduct.introductoryPrice!
+                                        .periodUnit,
+                                  )} free, then ",
+                                ),
+                                TextSpan(
+                                  text: "${item.storeProduct.priceString}/$per",
+                                ),
+                                const TextSpan(
+                                  text: " after",
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     if (item.packageType.name == PackageType.annual.name)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
@@ -305,47 +350,6 @@ class PaywallPage extends HookWidget {
                           ),
                         ),
                       ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          item.storeProduct.title
-                              .replaceAll(RegExp('\\(.*?\\)'), ''),
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            style: const TextStyle(
-                              fontFamily: "Montserrat",
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "Get ${DateHelper.getPeriod(
-                                  value: item.storeProduct.introductoryPrice!
-                                      .periodNumberOfUnits,
-                                  unit: item.storeProduct.introductoryPrice!
-                                      .periodUnit,
-                                )} free, then ",
-                              ),
-                              TextSpan(
-                                text: "${item.storeProduct.priceString}/$per",
-                              ),
-                              const TextSpan(
-                                text: " after",
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),

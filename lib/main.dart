@@ -30,12 +30,16 @@ void main() async {
 
   await ConfigReader.initialize();
 
-  final apiUrl = ConfigReader.getApiUrl();
-  final anonKey = ConfigReader.getAnonKey();
-  await Supabase.initialize(
-    url: apiUrl,
-    anonKey: anonKey,
-  );
+  try {
+    final apiUrl = ConfigReader.getApiUrl();
+    final anonKey = ConfigReader.getAnonKey();
+    await Supabase.initialize(
+      url: apiUrl,
+      anonKey: anonKey,
+    );
+  } catch (e) {
+    print(e);
+  }
 
   await di.setup();
 

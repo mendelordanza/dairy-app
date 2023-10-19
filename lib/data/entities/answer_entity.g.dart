@@ -27,18 +27,13 @@ const AnswerEntitySchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.string,
     ),
-    r'diaryEntryId': PropertySchema(
+    r'quote': PropertySchema(
       id: 2,
-      name: r'diaryEntryId',
-      type: IsarType.string,
-    ),
-    r'question': PropertySchema(
-      id: 3,
-      name: r'question',
+      name: r'quote',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'updatedAt',
       type: IsarType.string,
     )
@@ -49,15 +44,7 @@ const AnswerEntitySchema = CollectionSchema(
   deserializeProp: _answerEntityDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {
-    r'diaryEntry': LinkSchema(
-      id: 2914054361225675098,
-      name: r'diaryEntry',
-      target: r'DiaryEntryEntity',
-      single: true,
-      linkName: r'answers',
-    )
-  },
+  links: {},
   embeddedSchemas: {},
   getId: _answerEntityGetId,
   getLinks: _answerEntityGetLinks,
@@ -84,13 +71,7 @@ int _answerEntityEstimateSize(
     }
   }
   {
-    final value = object.diaryEntryId;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.question;
+    final value = object.quote;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -112,9 +93,8 @@ void _answerEntitySerialize(
 ) {
   writer.writeString(offsets[0], object.answer);
   writer.writeString(offsets[1], object.createdAt);
-  writer.writeString(offsets[2], object.diaryEntryId);
-  writer.writeString(offsets[3], object.question);
-  writer.writeString(offsets[4], object.updatedAt);
+  writer.writeString(offsets[2], object.quote);
+  writer.writeString(offsets[3], object.updatedAt);
 }
 
 AnswerEntity _answerEntityDeserialize(
@@ -126,10 +106,9 @@ AnswerEntity _answerEntityDeserialize(
   final object = AnswerEntity();
   object.answer = reader.readStringOrNull(offsets[0]);
   object.createdAt = reader.readStringOrNull(offsets[1]);
-  object.diaryEntryId = reader.readStringOrNull(offsets[2]);
   object.id = id;
-  object.question = reader.readStringOrNull(offsets[3]);
-  object.updatedAt = reader.readStringOrNull(offsets[4]);
+  object.quote = reader.readStringOrNull(offsets[2]);
+  object.updatedAt = reader.readStringOrNull(offsets[3]);
   return object;
 }
 
@@ -148,8 +127,6 @@ P _answerEntityDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 3:
       return (reader.readStringOrNull(offset)) as P;
-    case 4:
-      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -160,14 +137,12 @@ Id _answerEntityGetId(AnswerEntity object) {
 }
 
 List<IsarLinkBase<dynamic>> _answerEntityGetLinks(AnswerEntity object) {
-  return [object.diaryEntry];
+  return [];
 }
 
 void _answerEntityAttach(
     IsarCollection<dynamic> col, Id id, AnswerEntity object) {
   object.id = id;
-  object.diaryEntry
-      .attach(col, col.isar.collection<DiaryEntryEntity>(), r'diaryEntry', id);
 }
 
 extension AnswerEntityQueryWhereSort
@@ -558,160 +533,6 @@ extension AnswerEntityQueryFilter
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'diaryEntryId',
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'diaryEntryId',
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'diaryEntryId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'diaryEntryId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'diaryEntryId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'diaryEntryId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'diaryEntryId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'diaryEntryId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'diaryEntryId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'diaryEntryId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'diaryEntryId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIdIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'diaryEntryId',
-        value: '',
-      ));
-    });
-  }
-
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -766,31 +587,30 @@ extension AnswerEntityQueryFilter
   }
 
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionIsNull() {
+      quoteIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'question',
+        property: r'quote',
       ));
     });
   }
 
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionIsNotNull() {
+      quoteIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'question',
+        property: r'quote',
       ));
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionEqualTo(
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> quoteEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'question',
+        property: r'quote',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -798,7 +618,7 @@ extension AnswerEntityQueryFilter
   }
 
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionGreaterThan(
+      quoteGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -806,15 +626,14 @@ extension AnswerEntityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'question',
+        property: r'quote',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionLessThan(
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> quoteLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -822,15 +641,14 @@ extension AnswerEntityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'question',
+        property: r'quote',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionBetween(
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> quoteBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -839,7 +657,7 @@ extension AnswerEntityQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'question',
+        property: r'quote',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -850,49 +668,50 @@ extension AnswerEntityQueryFilter
   }
 
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionStartsWith(
+      quoteStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'question',
+        property: r'quote',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionEndsWith(
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> quoteEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'question',
+        property: r'quote',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> quoteContains(
+      String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'question',
+        property: r'quote',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> quoteMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'question',
+        property: r'quote',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -900,20 +719,20 @@ extension AnswerEntityQueryFilter
   }
 
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionIsEmpty() {
+      quoteIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'question',
+        property: r'quote',
         value: '',
       ));
     });
   }
 
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      questionIsNotEmpty() {
+      quoteIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'question',
+        property: r'quote',
         value: '',
       ));
     });
@@ -1078,21 +897,7 @@ extension AnswerEntityQueryObject
     on QueryBuilder<AnswerEntity, AnswerEntity, QFilterCondition> {}
 
 extension AnswerEntityQueryLinks
-    on QueryBuilder<AnswerEntity, AnswerEntity, QFilterCondition> {
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition> diaryEntry(
-      FilterQuery<DiaryEntryEntity> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'diaryEntry');
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterFilterCondition>
-      diaryEntryIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'diaryEntry', 0, true, 0, true);
-    });
-  }
-}
+    on QueryBuilder<AnswerEntity, AnswerEntity, QFilterCondition> {}
 
 extension AnswerEntityQuerySortBy
     on QueryBuilder<AnswerEntity, AnswerEntity, QSortBy> {
@@ -1120,28 +925,15 @@ extension AnswerEntityQuerySortBy
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> sortByDiaryEntryId() {
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> sortByQuote() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'diaryEntryId', Sort.asc);
+      return query.addSortBy(r'quote', Sort.asc);
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy>
-      sortByDiaryEntryIdDesc() {
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> sortByQuoteDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'diaryEntryId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> sortByQuestion() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'question', Sort.asc);
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> sortByQuestionDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'question', Sort.desc);
+      return query.addSortBy(r'quote', Sort.desc);
     });
   }
 
@@ -1184,19 +976,6 @@ extension AnswerEntityQuerySortThenBy
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> thenByDiaryEntryId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'diaryEntryId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy>
-      thenByDiaryEntryIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'diaryEntryId', Sort.desc);
-    });
-  }
-
   QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -1209,15 +988,15 @@ extension AnswerEntityQuerySortThenBy
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> thenByQuestion() {
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> thenByQuote() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'question', Sort.asc);
+      return query.addSortBy(r'quote', Sort.asc);
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> thenByQuestionDesc() {
+  QueryBuilder<AnswerEntity, AnswerEntity, QAfterSortBy> thenByQuoteDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'question', Sort.desc);
+      return query.addSortBy(r'quote', Sort.desc);
     });
   }
 
@@ -1250,17 +1029,10 @@ extension AnswerEntityQueryWhereDistinct
     });
   }
 
-  QueryBuilder<AnswerEntity, AnswerEntity, QDistinct> distinctByDiaryEntryId(
+  QueryBuilder<AnswerEntity, AnswerEntity, QDistinct> distinctByQuote(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'diaryEntryId', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<AnswerEntity, AnswerEntity, QDistinct> distinctByQuestion(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'question', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'quote', caseSensitive: caseSensitive);
     });
   }
 
@@ -1292,15 +1064,9 @@ extension AnswerEntityQueryProperty
     });
   }
 
-  QueryBuilder<AnswerEntity, String?, QQueryOperations> diaryEntryIdProperty() {
+  QueryBuilder<AnswerEntity, String?, QQueryOperations> quoteProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'diaryEntryId');
-    });
-  }
-
-  QueryBuilder<AnswerEntity, String?, QQueryOperations> questionProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'question');
+      return query.addPropertyName(r'quote');
     });
   }
 

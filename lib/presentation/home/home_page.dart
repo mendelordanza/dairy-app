@@ -110,7 +110,7 @@ class HomeView extends StatelessWidget {
                     extra: {
                       "quoteBloc": context.read<QuoteBloc>(),
                       "entryBloc": context.read<EntryBloc>(),
-                      "answerId": state.answerId,
+                      "answer": state.answer,
                       "prompt": state.text,
                     },
                   );

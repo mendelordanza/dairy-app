@@ -2,32 +2,32 @@ import 'package:night_diary/data/datasources/local_data_source.dart';
 import 'package:night_diary/domain/models/answer.dart';
 
 import '../../domain/repositories/diary_entry_repository.dart';
-import '../datasources/remote_data_source.dart';
 
 class DiaryEntryRepositoryImpl extends DiaryEntryRepository {
   final LocalDataSource localDataSource;
-  final RemoteDataSource remoteDataSource;
 
-  DiaryEntryRepositoryImpl(this.localDataSource, this.remoteDataSource);
+  //final RemoteDataSource remoteDataSource;
+
+  DiaryEntryRepositoryImpl(this.localDataSource);
 
   @override
-  Future<Answer?> addEntry({required Answer answer}) async {
-    final data = await remoteDataSource.addEntry(answer: answer);
+  Future<int> addEntry({required Answer answer}) async {
+    final data = await localDataSource.addAnswer(answer: answer);
     return data;
   }
 
   @override
-  Future<int?> deleteEntry({required int id}) async {
-    return await remoteDataSource.deleteEntry(id: id);
+  Future<bool> deleteEntry({required int id}) async {
+    return await localDataSource.deleteEntry(answerId: id);
   }
 
   @override
-  Future<Answer?> editEntry({required Answer answer}) async {
-    return await remoteDataSource.editEntry(answer: answer);
+  Future<int> editEntry({required Answer answer}) async {
+    return await localDataSource.editEntry(answer: answer);
   }
 
   @override
   Future<List<Answer>> loadEntries() async {
-    return await remoteDataSource.loadEntries();
+    return await localDataSource.loadEntries();
   }
 }

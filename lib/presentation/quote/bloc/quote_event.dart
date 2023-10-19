@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../domain/models/answer.dart';
+
 abstract class QuoteEvent extends Equatable {
   const QuoteEvent();
 
@@ -19,8 +21,8 @@ class GenerateQuote extends QuoteEvent {
 }
 
 class SaveQuote extends QuoteEvent {
-  final int answerId;
+  final Answer answer;
   final String quote;
 
-  SaveQuote(this.answerId, this.quote);
+  SaveQuote(this.answer, this.quote);
 }
