@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:night_diary/helper/data_state.dart';
+import 'package:night_diary/helper/extensions/string.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_event.dart';
 
 import '../../../domain/repositories/quote_repository.dart';
@@ -29,20 +30,27 @@ class QuoteBloc extends Bloc<QuoteEvent, QuoteState> {
 
   generateQuote(GenerateQuote event, Emitter emit) async {
     emit(QuoteLoading());
-    final response = await quoteRepository.generateQuote(prompt: event.prompt);
-    if (response is DataSuccess && response.data != null) {
-      totalGeneratedQuote++;
-      emit(QuoteGenerated(response.data!));
-    } else if (response is DataFailed) {
-      emit(QuoteError("${response.error}"));
+
+    //Check for problematic entries
+    if (event.prompt.hasProblematicEntry()) {
+      emit(QuoteGenerated(
+          "For now, I would recommend to seek for professional help"));
     } else {
-      emit(QuoteInitial());
+      final response =
+          await quoteRepository.generateQuote(prompt: event.prompt);
+      if (response is DataSuccess && response.data != null) {
+        totalGeneratedQuote++;
+        emit(QuoteGenerated('"${response.data!}"'));
+      } else if (response is DataFailed) {
+        emit(QuoteError("${response.error}"));
+      } else {
+        emit(QuoteInitial());
+      }
     }
   }
 
   saveQuote(SaveQuote event, Emitter emit) async {
-    await quoteRepository.saveQuote(
-        answer: event.answer, quote: event.quote);
+    await quoteRepository.saveQuote(answer: event.answer, quote: event.quote);
     emit(QuoteSaved());
   }
 }

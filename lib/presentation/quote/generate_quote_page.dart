@@ -204,7 +204,7 @@ class GenerateQuoteView extends StatelessWidget {
               AnimatedTextKit(
                 animatedTexts: [
                   TypewriterAnimatedText(
-                    '" $quote "',
+                    quote,
                     textStyle: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,

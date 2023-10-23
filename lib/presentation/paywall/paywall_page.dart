@@ -311,9 +311,6 @@ class PaywallPage extends HookWidget {
                                 TextSpan(
                                   text: "${item.storeProduct.priceString}/$per",
                                 ),
-                                const TextSpan(
-                                  text: " after",
-                                ),
                               ],
                             ),
                           ),
