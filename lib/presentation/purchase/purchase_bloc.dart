@@ -10,14 +10,23 @@ part 'purchase_state.dart';
 class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   PurchaseBloc() : super(PurchaseInitial()) {
     on<CheckEntitlement>(checkEntitlement);
+
+    add(CheckEntitlement());
   }
 
   checkEntitlement(event, emit) async {
     final customerInfo = await Purchases.getCustomerInfo();
-    final entitled = (customerInfo.entitlements.active[entitlementId] != null &&
+    final onTrial = customerInfo.entitlements.active.values
+        .any((element) => element.periodType == PeriodType.trial);
+    final trialEntitled = customerInfo.entitlements.all.values
+        .any((element) => element.periodType != PeriodType.trial);
+    final premiumEntitled = (customerInfo.entitlements.active[entitlementId] !=
+            null &&
         customerInfo.entitlements.active[entitlementId]!.isSandbox == false);
     emit(PurchaseLoaded(
-      entitled,
+      onTrial,
+      trialEntitled,
+      premiumEntitled,
       customerInfo.entitlements.active[entitlementId] as EntitlementInfo,
     ));
   }

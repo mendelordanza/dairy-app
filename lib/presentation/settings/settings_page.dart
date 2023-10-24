@@ -42,7 +42,7 @@ class SettingsPage extends StatelessWidget {
           builder: (BuildContext context) {
             return StatefulBuilder(
                 builder: (BuildContext context, StateSetter setModalState) {
-              return PaywallPage(
+                  return PaywallPage(
                 offering: offerings.current!,
               );
             });
