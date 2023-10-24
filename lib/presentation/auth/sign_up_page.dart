@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
-import 'auth_bloc.dart';
+import 'bloc/auth_bloc.dart';
 
 class SignUpPage extends HookWidget {
   SignUpPage({super.key});

@@ -16,6 +16,7 @@ import 'package:night_diary/presentation/onboarding/onboarding_generate_quote_pa
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:night_diary/presentation/quote/generate_quote_page.dart';
 import 'package:night_diary/presentation/settings/settings_page.dart';
+import 'package:night_diary/presentation/settings/subscribed_page.dart';
 
 import '../domain/models/answer.dart';
 
@@ -94,7 +95,7 @@ class RouteGenerator {
           name: RouteStrings.settings,
           path: RouteStrings.settings,
           builder: (context, state) {
-            return SettingsPage();
+            return const SettingsPage();
           },
         ),
         GoRoute(
@@ -108,7 +109,7 @@ class RouteGenerator {
           name: RouteStrings.confirmation,
           path: RouteStrings.confirmation,
           builder: (context, state) {
-            return ConfirmationPage();
+            return const ConfirmationPage();
           },
         ),
         GoRoute(
@@ -125,7 +126,14 @@ class RouteGenerator {
           name: RouteStrings.onboardingAddEntry,
           path: RouteStrings.onboardingAddEntry,
           builder: (context, state) {
-            return OnboardingAddEntryPage();
+            return const OnboardingAddEntryPage();
+          },
+        ),
+        GoRoute(
+          name: RouteStrings.subscribed,
+          path: RouteStrings.subscribed,
+          builder: (context, state) {
+            return const SubscribedPage();
           },
         ),
       ],

@@ -171,8 +171,11 @@ class GenerateQuoteView extends StatelessWidget {
                               Icon(
                                 Icons.format_quote_rounded,
                               ),
-                              Text(
-                                "Click here to generate affirmation",
+                              Flexible(
+                                child: Text(
+                                  "Click here to generate affirmation",
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                               Icon(
                                 Icons.format_quote_rounded,

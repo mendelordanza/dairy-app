@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:night_diary/helper/route_strings.dart';
-import 'package:night_diary/presentation/auth/auth_bloc.dart';
+import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
 import 'package:night_diary/presentation/widgets/custom_button.dart';
 
 import '../widgets/custom_text_field.dart';

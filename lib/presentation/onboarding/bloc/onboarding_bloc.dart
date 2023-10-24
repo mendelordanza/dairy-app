@@ -21,6 +21,11 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
       sharedPrefs.setFinishedOnboarding(true);
       emit(OnboardingLoaded(true));
     });
+    on<ToggleOnboarding>((event, emit) {
+      final isFinished = sharedPrefs.getFinishedOnboarding() ?? false;
+      sharedPrefs.setFinishedOnboarding(!isFinished);
+      emit(OnboardingLoaded(!isFinished));
+    });
 
     add(LoadOnboardingStatus());
   }

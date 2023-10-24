@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../domain/models/user_model.dart';
-import '../../domain/repositories/auth_repository.dart';
+import '../../../domain/models/user_model.dart';
+import '../../../domain/repositories/auth_repository.dart';
 
 part 'auth_event.dart';
 

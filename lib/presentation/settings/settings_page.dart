@@ -1,11 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:night_diary/presentation/auth/auth_bloc.dart';
+import 'package:night_diary/helper/route_strings.dart';
+import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
+import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
+import 'package:night_diary/presentation/settings/bloc/biometrics_cubit.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -77,8 +81,13 @@ class SettingsPage extends StatelessWidget {
                             ),
                             settingItems: [
                               SettingItem(
-                                onTap: () async {
-                                  showPaywall(context);
+                                onTap: () {
+                                  if (state is PurchaseLoaded &&
+                                      state.entitled) {
+                                    context.push(RouteStrings.subscribed);
+                                  } else {
+                                    showPaywall(context);
+                                  }
                                 },
                                 icon: SvgPicture.asset("assets/ic_logo.svg"),
                                 iconBackgroundColor: const Color(0xFF666666),
@@ -89,12 +98,42 @@ class SettingsPage extends StatelessWidget {
                                 subtitle:
                                     (state is PurchaseLoaded && state.entitled)
                                         ? null
-                                        : "Enjoy unlimited quotes!",
+                                        : "Enjoy unlimited affirmations!",
                               ),
                             ],
                           );
                         },
                       ),
+                      BlocBuilder<BiometricsCubit, BiometricsState>(
+                          builder: (context, state) {
+                        if (state is BiometricsLoaded) {
+                          return SettingsContainer(
+                            label: "General",
+                            settingItems: [
+                              SettingItem(
+                                onTap: () async {},
+                                icon: const Icon(
+                                  Icons.fingerprint,
+                                  color: Colors.white,
+                                ),
+                                iconBackgroundColor: const Color(0xFFFFC700),
+                                label: "Biometrics",
+                                suffix: Switch(
+                                  value: state.isBiometricsEnabled,
+                                  onChanged: (value) {
+                                    context
+                                        .read<BiometricsCubit>()
+                                        .setBiometrics(
+                                            isEnabled:
+                                                !state.isBiometricsEnabled);
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                        return Container();
+                      }),
                       SettingsContainer(
                         label: "General",
                         settingItems: [
@@ -145,6 +184,23 @@ class SettingsPage extends StatelessWidget {
                             iconBackgroundColor: const Color(0xFF42a68a),
                             label: "Privacy Policy",
                           ),
+                          if (kDebugMode)
+                            SettingItem(
+                              onTap: () {
+                                context
+                                    .read<OnboardingBloc>()
+                                    .add(ToggleOnboarding());
+                              },
+                              icon: const Center(
+                                child: Icon(
+                                  Icons.shield,
+                                  size: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              iconBackgroundColor: const Color(0xFF42a68a),
+                              label: "Set Onboarding",
+                            ),
                         ],
                       ),
                       SettingsContainer(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:night_diary/helper/route_strings.dart';
-import 'package:night_diary/presentation/auth/auth_bloc.dart';
-import 'package:night_diary/presentation/auth/login_page.dart';
+import 'package:night_diary/presentation/auth/biometric_page.dart';
+import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
 import 'package:night_diary/presentation/home/home_page.dart';
 
 class LandingPage extends StatelessWidget {
@@ -11,7 +9,14 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return BlocBuilder<LocalAuthCubit, LocalAuthState>(
+      builder: (context, state) {
+        if (state is LocalAuthSuccess || state is LocalAuthBiometricsDisabled) {
+          return const HomePage();
+        }
+        return const BiometricPage();
+      },
+    );
 
     // return BlocConsumer<AuthBloc, AuthState>(
     //   listener: (context, state) {

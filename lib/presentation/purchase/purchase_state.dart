@@ -8,6 +8,10 @@ class PurchaseInitial extends PurchaseState {}
 
 class PurchaseLoaded extends PurchaseState {
   final bool entitled;
+  final EntitlementInfo info;
 
-  const PurchaseLoaded(this.entitled);
+  const PurchaseLoaded(
+    this.entitled,
+    this.info,
+  );
 }

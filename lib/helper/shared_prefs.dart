@@ -8,6 +8,7 @@ class SharedPrefs {
 
   static const String KEY_IS_FINISHED = "key_is_finished";
   static const String KEY_SHOULD_SHOW_REVIEW = "key_should_show_review";
+  static const String KEY_BIOMETRICS = "key_biometrics";
 
   Future setFinishedOnboarding(bool isFinished) async {
     await _preferences?.setBool(KEY_IS_FINISHED, isFinished);
@@ -21,4 +22,10 @@ class SharedPrefs {
 
   int getShouldShowReview() =>
       _preferences?.getInt(KEY_SHOULD_SHOW_REVIEW) ?? 0;
+
+  Future setBiometricsEnabled(bool isEnabled) async {
+    await _preferences?.setBool(KEY_BIOMETRICS, isEnabled);
+  }
+
+  bool? getBiometricsEnabled() => _preferences?.getBool(KEY_BIOMETRICS);
 }

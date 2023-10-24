@@ -14,9 +14,11 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
 
   checkEntitlement(event, emit) async {
     final customerInfo = await Purchases.getCustomerInfo();
-    print("ENTITLEMENTS: ${customerInfo.entitlements.active}");
     final entitled = (customerInfo.entitlements.active[entitlementId] != null &&
         customerInfo.entitlements.active[entitlementId]!.isSandbox == false);
-    emit(PurchaseLoaded(entitled));
+    emit(PurchaseLoaded(
+      entitled,
+      customerInfo.entitlements.active[entitlementId] as EntitlementInfo,
+    ));
   }
 }

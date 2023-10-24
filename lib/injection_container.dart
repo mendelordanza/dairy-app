@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:night_diary/config_reader.dart';
 import 'package:night_diary/data/datasources/remote_data_source.dart';
 import 'package:night_diary/data/repositories/diary_entry_repository_impl.dart';
@@ -11,11 +12,13 @@ import 'package:night_diary/data/repositories/supabase_auth_repository_impl.dart
 import 'package:night_diary/domain/repositories/auth_repository.dart';
 import 'package:night_diary/domain/repositories/quote_repository.dart';
 import 'package:night_diary/helper/shared_prefs.dart';
-import 'package:night_diary/presentation/auth/auth_bloc.dart';
+import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
+import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
+import 'package:night_diary/presentation/settings/bloc/biometrics_cubit.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -39,6 +42,17 @@ Future<void> setup() async {
   );
   getIt.registerFactory(
     () => OnboardingBloc(sharedPrefs: getIt()),
+  );
+  getIt.registerFactory(
+    () => LocalAuthCubit(
+      localAuthentication: getIt(),
+      sharedPrefs: getIt(),
+    ),
+  );
+  getIt.registerFactory(
+    () => BiometricsCubit(
+      sharedPrefs: getIt(),
+    ),
   );
 
   //Repository
@@ -86,4 +100,5 @@ Future<void> setup() async {
   });
 
   getIt.registerLazySingleton<SharedPrefs>(() => SharedPrefs());
+  getIt.registerLazySingleton<LocalAuthentication>(() => LocalAuthentication());
 }

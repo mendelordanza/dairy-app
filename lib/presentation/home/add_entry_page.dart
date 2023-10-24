@@ -96,6 +96,7 @@ class AddEntryView extends HookWidget {
               ),
               CustomButton(
                 onPressed: () {
+                  FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
                     final answer = Answer(
                       answer: answerTextController.text,

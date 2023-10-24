@@ -7,9 +7,11 @@ import 'package:night_diary/helper/route_generator.dart';
 import 'package:night_diary/helper/shared_prefs.dart';
 import 'package:night_diary/helper/theme.dart';
 import 'package:night_diary/injection_container.dart';
-import 'package:night_diary/presentation/auth/auth_bloc.dart';
+import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
+import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
+import 'package:night_diary/presentation/settings/bloc/biometrics_cubit.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -86,6 +88,12 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => getIt<OnboardingBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<LocalAuthCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<BiometricsCubit>(),
         ),
       ],
       child: MaterialApp.router(
