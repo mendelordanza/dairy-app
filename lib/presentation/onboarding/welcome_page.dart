@@ -74,7 +74,7 @@ class WelcomePage extends StatelessWidget {
                 },
                 child: const Text("Let's try it first"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               CustomButton(

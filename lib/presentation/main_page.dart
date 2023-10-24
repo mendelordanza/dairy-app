@@ -10,12 +10,13 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OnboardingBloc, OnboardingState>(
-        builder: (context, state) {
-      if (state is OnboardingLoaded && !state.isFinished) {
-        return const WelcomePage();
-      } else {
-        return const LandingPage();
-      }
-    });
+      builder: (context, state) {
+        if (state is OnboardingLoaded && !state.isFinished) {
+          return const WelcomePage();
+        } else {
+          return const LandingPage();
+        }
+      },
+    );
   }
 }
