@@ -16,9 +16,9 @@ class LocalAuthCubit extends Cubit<LocalAuthState> {
     checkBiometrics();
   }
 
-  checkBiometrics() {
+  checkBiometrics() async {
     final biometricsEnabled = sharedPrefs.getBiometricsEnabled() ?? false;
-    if (!biometricsEnabled) {
+    if (!biometricsEnabled || !await localAuthentication.canCheckBiometrics) {
       emit(LocalAuthBiometricsDisabled());
     }
   }

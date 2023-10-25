@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
+import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/settings/bloc/biometrics_cubit.dart';
@@ -126,6 +127,9 @@ class SettingsPage extends StatelessWidget {
                                         .setBiometrics(
                                             isEnabled:
                                                 !state.isBiometricsEnabled);
+                                    context
+                                        .read<LocalAuthCubit>()
+                                        .authenticate();
                                   },
                                 ),
                               ),
