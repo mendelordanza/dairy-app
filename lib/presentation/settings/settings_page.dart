@@ -42,7 +42,7 @@ class SettingsPage extends StatelessWidget {
           builder: (BuildContext context) {
             return StatefulBuilder(
                 builder: (BuildContext context, StateSetter setModalState) {
-                  return PaywallPage(
+              return PaywallPage(
                 offering: offerings.current!,
               );
             });
@@ -156,7 +156,7 @@ class SettingsPage extends StatelessWidget {
                           SettingItem(
                             onTap: () {
                               _launchUrl(
-                                  "https://budgetup.notion.site/BudgetUp-Terms-of-Service-0f0bf474649646eb94f39d562cf9d366?pvs=4");
+                                  "https://www.notion.so/dairyapp/Dairy-Terms-and-Conditions-0bb60f6f72d44af89be4db736e852533?pvs=4");
                             },
                             icon: const Center(
                               child: Icon(
@@ -166,13 +166,13 @@ class SettingsPage extends StatelessWidget {
                               ),
                             ),
                             iconBackgroundColor: const Color(0xFFff7a7a),
-                            label: "Terms of Service",
+                            label: "Terms and Conditions",
                           ),
                           const Divider(),
                           SettingItem(
                             onTap: () {
                               _launchUrl(
-                                  "https://budgetup.notion.site/BudgetUp-Privacy-Policy-e3cf48a7d2ba4661be89963696363918?pvs=4");
+                                  "https://www.notion.so/dairyapp/Dairy-Privacy-Policy-eba39361b5944b85918840a56bb6cd5f?pvs=4");
                             },
                             icon: const Center(
                               child: Icon(

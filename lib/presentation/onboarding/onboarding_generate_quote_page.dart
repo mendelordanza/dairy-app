@@ -122,10 +122,13 @@ class OnboardingGenerateQuoteView extends StatelessWidget {
                                 Icons.format_quote_rounded,
                                 color: Colors.white,
                               ),
-                              Text(
-                                " Click here to generate affirmation",
-                                style: TextStyle(
-                                  color: Colors.white,
+                              Flexible(
+                                child: Text(
+                                  " Click here to generate affirmation",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                               Icon(
