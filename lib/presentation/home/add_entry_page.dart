@@ -40,6 +40,8 @@ class AddEntryView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final answerTextController = useTextEditingController();
+    final focusNode = useFocusNode();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -96,7 +98,7 @@ class AddEntryView extends HookWidget {
               ),
               CustomButton(
                 onPressed: () {
-                  FocusScope.of(context).unfocus();
+                  focusNode.unfocus();
                   if (_formKey.currentState!.validate()) {
                     final answer = Answer(
                       answer: answerTextController.text,
