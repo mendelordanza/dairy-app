@@ -26,22 +26,22 @@ void main() async {
 
   tzdata.initializeTimeZones();
 
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await ConfigReader.initialize();
 
-  // try {
-  //   final apiUrl = ConfigReader.getApiUrl();
-  //   final anonKey = ConfigReader.getAnonKey();
-  //   await Supabase.initialize(
-  //     url: apiUrl,
-  //     anonKey: anonKey,
-  //   );
-  // } catch (e) {
-  //   print(e);
-  // }
+  try {
+    final apiUrl = ConfigReader.getApiUrl();
+    final anonKey = ConfigReader.getAnonKey();
+    await Supabase.initialize(
+      url: apiUrl,
+      anonKey: anonKey,
+    );
+  } catch (e) {
+    print(e);
+  }
 
   await di.setup();
 
