@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -10,10 +11,14 @@ import 'package:night_diary/helper/route_strings.dart';
 import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
+import 'package:night_diary/presentation/widgets/screenshot_widget.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 
 import '../../domain/models/answer.dart';
 import '../paywall/paywall_page.dart';
+import '../widgets/share_sheet.dart';
 import 'bloc/quote_event.dart';
 
 class GenerateQuotePage extends StatelessWidget {
@@ -43,8 +48,9 @@ class GenerateQuoteView extends StatelessWidget {
   final Answer answer;
   final String text;
 
-  const GenerateQuoteView(
-      {required this.answer, required this.text, super.key});
+  final screenshotController = ScreenshotController();
+
+  GenerateQuoteView({required this.answer, required this.text, super.key});
 
   showPaywall(BuildContext context) async {
     try {
@@ -227,7 +233,28 @@ class GenerateQuoteView extends StatelessWidget {
                 height: 16.0,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  screenshotController
+                      .captureFromWidget((ScreenshotWidget(
+                    quote: quote,
+                  )))
+                      .then((image) async {
+                    final tempDir = await getTemporaryDirectory();
+                    File file =
+                        await File('${tempDir.path}/image.png').create();
+                    file.writeAsBytesSync(image);
+
+                    if (context.mounted) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return ShareSheet(
+                              imagePath: file.path,
+                            );
+                          });
+                    }
+                  });
+                },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

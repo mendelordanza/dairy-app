@@ -36,4 +36,8 @@ abstract class ConfigReader {
   static String getAppleKey() {
     return _config!['APPLE_KEY'] as String;
   }
+
+  static String getFacebookId() {
+    return _config!['FACEBOOK_ID'] as String;
+  }
 }
