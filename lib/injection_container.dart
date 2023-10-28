@@ -14,7 +14,7 @@ import 'package:night_diary/domain/repositories/quote_repository.dart';
 import 'package:night_diary/helper/shared_prefs.dart';
 import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
 import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
-import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/entry/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';

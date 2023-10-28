@@ -1,35 +1,26 @@
 import 'dart:ui';
 
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:go_router/go_router.dart';
 import 'package:night_diary/domain/models/answer.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
-import 'package:night_diary/helper/route_strings.dart';
-import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/helper/routes/app_router.gr.dart';
+import 'package:night_diary/presentation/entry/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 
-import '../../injection_container.dart';
 import '../quote/bloc/quote_event.dart';
 
+@RoutePage()
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => getIt<EntryBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => getIt<QuoteBloc>(),
-        ),
-      ],
-      child: const HomeView(),
-    );
+    return const HomeView();
   }
 }
 
@@ -64,7 +55,7 @@ class HomeView extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  context.push(RouteStrings.settings);
+                  context.router.push(const SettingsRoute());
                 },
                 icon: const Icon(
                   Icons.settings,
@@ -78,15 +69,9 @@ class HomeView extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
+              context.router.push(const AddEntryRoute());
               context.read<QuoteBloc>().add(ResetQuote());
               context.read<QuoteBloc>().add(ResetCount());
-              context.push(
-                RouteStrings.addEntry,
-                extra: {
-                  "entryBloc": context.read<EntryBloc>(),
-                  "quoteBloc": context.read<QuoteBloc>()
-                },
-              );
             },
             child: const Icon(Icons.add),
           ),
@@ -102,20 +87,7 @@ class HomeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: BlocConsumer<EntryBloc, EntryState>(
-              listener: (context, state) {
-                if (state is EntryAdded) {
-                  context.push(
-                    RouteStrings.quote,
-                    extra: {
-                      "quoteBloc": context.read<QuoteBloc>(),
-                      "entryBloc": context.read<EntryBloc>(),
-                      "answer": state.answer,
-                      "prompt": state.text,
-                    },
-                  );
-                }
-              },
+            child: BlocBuilder<EntryBloc, EntryState>(
               builder: (context, state) {
                 if (state is EntryLoading) {
                   return const Center(
@@ -159,14 +131,7 @@ class EntryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push(
-          RouteStrings.entry,
-          extra: {
-            "quoteBloc": context.read<QuoteBloc>(),
-            "entryBloc": context.read<EntryBloc>(),
-            "answer": answer,
-          },
-        );
+        context.router.push(EntryRoute(answer: answer));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),

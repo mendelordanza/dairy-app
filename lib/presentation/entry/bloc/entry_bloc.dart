@@ -29,14 +29,12 @@ class EntryBloc extends Bloc<EntryEvent, EntryState> {
 
   addEntry(AddEntry event, Emitter<EntryState> emit) async {
     final answerId = await diaryEntryRepository.addEntry(answer: event.answer);
-    emit(EntryAdded(event.answer.copyWith(id: answerId), event.answer.answer!));
-    add(LoadEntries());
+    emit(EntryAdded(event.answer.copyWith(id: answerId)));
   }
 
   editEntry(EditEntry event, Emitter<EntryState> emit) async {
     final answerId = await diaryEntryRepository.editEntry(answer: event.answer);
-    emit(EntryAdded(event.answer.copyWith(id: answerId), event.answer.answer!));
-    add(LoadEntries());
+    emit(EntryAdded(event.answer.copyWith(id: answerId)));
   }
 
   deleteEntry(DeleteEntry event, Emitter<EntryState> emit) async {

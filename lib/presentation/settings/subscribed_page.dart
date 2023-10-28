@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 
+@RoutePage()
 class SubscribedPage extends HookWidget {
   const SubscribedPage({super.key});
 
@@ -39,13 +41,15 @@ class SubscribedPage extends HookWidget {
             SvgPicture.asset("assets/ic_logo.svg"),
             BlocBuilder<PurchaseBloc, PurchaseState>(
               builder: (context, state) {
-                if (state is PurchaseLoaded && state.entitled) {
+                if (state is PurchaseLoaded &&
+                    state.entitled &&
+                    state.info != null) {
                   return Column(
                     children: [
                       Text(
-                          "Purchase Date: ${DateTime.parse(state.info.originalPurchaseDate).formatDate(pattern: "MMMM dd, yyyy")}"),
-                      if (state.info.expirationDate != null)
-                        Text("Renewal Date: ${state.info.expirationDate}"),
+                          "Purchase Date: ${DateTime.parse(state.info!.originalPurchaseDate).formatDate(pattern: "MMMM dd, yyyy")}"),
+                      if (state.info!.expirationDate != null)
+                        Text("Renewal Date: ${state.info!.expirationDate}"),
                     ],
                   );
                 }

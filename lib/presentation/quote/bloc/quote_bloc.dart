@@ -34,13 +34,14 @@ class QuoteBloc extends Bloc<QuoteEvent, QuoteState> {
     //Check for problematic entries
     if (event.prompt.hasProblematicEntry()) {
       emit(QuoteGenerated(
-          "For now, I would recommend to seek for professional help"));
+        quote: "For now, I would recommend to seek for professional help ",
+      ));
     } else {
       final response =
           await quoteRepository.generateQuote(prompt: event.prompt);
       if (response is DataSuccess && response.data != null) {
         totalGeneratedQuote++;
-        emit(QuoteGenerated('"${response.data!}"'));
+        emit(QuoteGenerated(quote: response.data!["quote"]!));
       } else if (response is DataFailed) {
         emit(QuoteError("${response.error}"));
       } else {

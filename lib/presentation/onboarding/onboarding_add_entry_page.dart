@@ -1,11 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:night_diary/helper/extensions/date_time.dart';
+import 'package:night_diary/helper/routes/app_router.gr.dart';
 import 'package:night_diary/presentation/widgets/custom_button.dart';
 
-import '../../helper/route_strings.dart';
 
+@RoutePage()
 class OnboardingAddEntryPage extends StatelessWidget {
   const OnboardingAddEntryPage({super.key});
 
@@ -23,6 +24,8 @@ class OnboardingAddEntryView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final answerTextController = useTextEditingController();
+    final focusNode = useFocusNode();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -55,6 +58,7 @@ class OnboardingAddEntryView extends HookWidget {
                     Form(
                       key: _formKey,
                       child: TextFormField(
+                        focusNode: focusNode,
                         controller: answerTextController,
                         maxLines: null,
                         autofocus: true,
@@ -80,12 +84,9 @@ class OnboardingAddEntryView extends HookWidget {
               ),
               CustomButton(
                 onPressed: () {
-                  context.push(
-                    RouteStrings.onboardingQuote,
-                    extra: {
-                      "prompt": answerTextController.text,
-                    },
-                  );
+                  focusNode.unfocus();
+                  context.router.push(OnboardingGenerateQuoteRoute(
+                      text: answerTextController.text));
                 },
                 child: const Text("Next"),
               ),

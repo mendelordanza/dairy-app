@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:night_diary/helper/routes/app_router.gr.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/widgets/custom_button.dart';
 
-import '../../helper/route_strings.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -30,7 +30,7 @@ class WelcomePage extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10.0,
                     ),
                     const Text(
@@ -70,7 +70,7 @@ class WelcomePage extends StatelessWidget {
               ),
               CustomButton(
                 onPressed: () {
-                  context.push(RouteStrings.onboardingAddEntry);
+                  context.router.push(const OnboardingAddEntryRoute());
                 },
                 child: const Text("Let's try it first"),
               ),

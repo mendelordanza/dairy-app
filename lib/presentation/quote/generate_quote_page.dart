@@ -2,82 +2,43 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:night_diary/helper/extensions/gorouter.dart';
-import 'package:night_diary/helper/route_strings.dart';
-import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/entry/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 import 'package:night_diary/presentation/widgets/screenshot_widget.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../domain/models/answer.dart';
-import '../paywall/paywall_page.dart';
 import '../widgets/share_sheet.dart';
+import '../widgets/show_paywall.dart';
 import 'bloc/quote_event.dart';
 
+@RoutePage()
 class GenerateQuotePage extends StatelessWidget {
-  final QuoteBloc bloc;
   final Answer answer;
-  final String text;
 
-  const GenerateQuotePage(
-      {required this.bloc,
-      required this.answer,
-      required this.text,
-      super.key});
+  const GenerateQuotePage({required this.answer, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: bloc,
-      child: GenerateQuoteView(
-        answer: answer,
-        text: text,
-      ),
+    return GenerateQuoteView(
+      answer: answer,
     );
   }
 }
 
 class GenerateQuoteView extends StatelessWidget {
   final Answer answer;
-  final String text;
 
   final screenshotController = ScreenshotController();
 
-  GenerateQuoteView({required this.answer, required this.text, super.key});
-
-  showPaywall(BuildContext context) async {
-    try {
-      final offerings = await Purchases.getOfferings();
-      if (context.mounted && offerings.current != null) {
-        await showModalBottomSheet(
-          isDismissible: true,
-          isScrollControlled: true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-          ),
-          context: context,
-          builder: (BuildContext context) {
-            return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setModalState) {
-              return PaywallPage(
-                offering: offerings.current!,
-              );
-            });
-          },
-        );
-      }
-    } on PlatformException catch (e) {
-      print(e.message);
-    }
-  }
+  GenerateQuoteView({required this.answer, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -123,13 +84,16 @@ class GenerateQuoteView extends StatelessWidget {
                     listener: (context, state) {
                       if (state is QuoteSaved) {
                         context.read<EntryBloc>().add(LoadEntries());
-                        GoRouter.of(context)
-                            .popUntilPath(context, RouteStrings.landing);
+                        context.router.popUntil((route) => route.isFirst);
                       }
                     },
                     builder: (context, state) {
                       if (state is QuoteGenerated) {
-                        return _buildBody(context, quote: state.quote);
+                        return _buildBody(
+                          context,
+                          quote: state.quote,
+                          author: state.author,
+                        );
                       }
                       if (state is QuoteLoading) {
                         return const Center(
@@ -166,7 +130,7 @@ class GenerateQuoteView extends StatelessWidget {
                                 totalCount == 0) {
                               context
                                   .read<QuoteBloc>()
-                                  .add(GenerateQuote(text));
+                                  .add(GenerateQuote(answer.answer ?? ""));
                             } else {
                               showPaywall(context);
                             }
@@ -201,7 +165,11 @@ class GenerateQuoteView extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, {required String quote}) {
+  Widget _buildBody(
+    BuildContext context, {
+    required String quote,
+    required String author,
+  }) {
     final totalGeneratedQuote = context.read<QuoteBloc>().totalGeneratedQuote;
     return Column(
       children: [
@@ -210,24 +178,35 @@ class GenerateQuoteView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AnimatedTextKit(
-                animatedTexts: [
-                  TypewriterAnimatedText(
-                    quote,
-                    textStyle: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                      height: 1.6,
-                    ),
-                    textAlign: TextAlign.center,
-                    speed: const Duration(
-                      milliseconds: 50,
-                    ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Icon(
+                    Icons.format_quote_rounded,
+                  ),
+                  AnimatedTextKit(
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        quote,
+                        textStyle: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600,
+                          height: 1.6,
+                        ),
+                        textAlign: TextAlign.center,
+                        speed: const Duration(
+                          milliseconds: 50,
+                        ),
+                      ),
+                    ],
+                    totalRepeatCount: 1,
+                    displayFullTextOnTap: true,
+                    stopPauseOnTap: true,
+                  ),
+                  const Icon(
+                    Icons.format_quote_rounded,
                   ),
                 ],
-                totalRepeatCount: 1,
-                displayFullTextOnTap: true,
-                stopPauseOnTap: true,
               ),
               const SizedBox(
                 height: 16.0,
@@ -237,6 +216,7 @@ class GenerateQuoteView extends StatelessWidget {
                   screenshotController
                       .captureFromWidget((ScreenshotWidget(
                     quote: quote,
+                    author: author,
                   )))
                       .then((image) async {
                     final tempDir = await getTemporaryDirectory();
@@ -286,7 +266,11 @@ class GenerateQuoteView extends StatelessWidget {
                     context.read<PurchaseBloc>().add(CheckEntitlement());
                     if ((state is PurchaseLoaded && state.entitled) ||
                         totalGeneratedQuote == 0) {
-                      context.read<QuoteBloc>().add(GenerateQuote(text));
+                      context
+                          .read<QuoteBloc>()
+                          .add(GenerateQuote(answer.answer ?? ""));
+                    } else {
+                      showPaywall(context);
                     }
                   },
                   child: const Row(

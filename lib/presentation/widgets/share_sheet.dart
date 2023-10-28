@@ -43,12 +43,15 @@ class ShareSheet extends StatelessWidget {
               children: [
                 shareItem(
                   onTap: () {
-                    SocialShare.shareInstagramStory(
-                      appId: ConfigReader.getFacebookId(),
-                      imagePath: imagePath,
-                    ).then((data) {
-                      Navigator.pop(context);
-                    });
+                    print("IG");
+                    // SocialShare.shareInstagramStory(
+                    //   appId: ConfigReader.getFacebookId(),
+                    //   imagePath: imagePath,
+                    // ).then((data) {
+                    //   Navigator.pop(context);
+                    // }).onError((error, stackTrace) {
+                    //   print("$error");
+                    // });
                   },
                   icon: SvgPicture.asset(
                     "assets/ic_ig.svg",
@@ -63,6 +66,8 @@ class ShareSheet extends StatelessWidget {
                       imagePath: imagePath,
                     ).then((data) {
                       Navigator.pop(context);
+                    }).onError((error, stackTrace) {
+                      print("$error");
                     });
                   },
                   icon: Padding(

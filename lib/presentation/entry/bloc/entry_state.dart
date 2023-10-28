@@ -13,18 +13,19 @@ class EntryLoading extends EntryState {}
 
 class EntryAdded extends EntryState {
   final Answer answer;
-  final String text;
 
-  EntryAdded(
+  const EntryAdded(
     this.answer,
-    this.text,
   );
+
+  @override
+  List<Object?> get props => [answer];
 }
 
 class EntryLoaded extends EntryState {
   final List<Answer> entries;
 
-  EntryLoaded(this.entries);
+  const EntryLoaded(this.entries);
 
   @override
   List<Object?> get props => [entries];

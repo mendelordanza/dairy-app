@@ -1,13 +1,11 @@
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:night_diary/helper/extensions/gorouter.dart';
-import 'package:night_diary/helper/route_strings.dart';
-import 'package:night_diary/presentation/home/bloc/entry_bloc.dart';
+import 'package:night_diary/presentation/entry/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
 
@@ -15,6 +13,7 @@ import '../../injection_container.dart';
 import '../quote/bloc/quote_event.dart';
 import '../widgets/custom_button.dart';
 
+@RoutePage()
 class OnboardingGenerateQuotePage extends StatelessWidget {
   final String text;
 
@@ -186,7 +185,7 @@ class OnboardingGenerateQuoteView extends StatelessWidget {
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           onPressed: () {
-            GoRouter.of(context).popUntilPath(context, RouteStrings.main);
+            context.router.popUntil((route) => route.isFirst);
             context.read<OnboardingBloc>().add(FinishOnboarding());
           },
           child: const Text(

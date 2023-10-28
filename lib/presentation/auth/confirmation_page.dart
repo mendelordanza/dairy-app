@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:night_diary/presentation/widgets/custom_button.dart';
 
 class ConfirmationPage extends StatelessWidget {
@@ -23,9 +23,9 @@ class ConfirmationPage extends StatelessWidget {
               ),
               CustomButton(
                 onPressed: () {
-                  context.pop();
+                  context.router.pop();
                 },
-                child: Text(
+                child: const Text(
                   "Done",
                 ),
               ),

@@ -58,9 +58,6 @@ dependencies:
   #Package Info
   package_info_plus: ^4.0.2
 
-  #GoRouter
-  go_router: ^10.1.0
-
   #Equatable
   equatable: ^2.0.5
 
@@ -123,6 +120,9 @@ dependencies:
   #Screenshot
   screenshot: ^2.1.0
 
+  #AutoRoute
+  auto_route: ^7.8.4
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -133,6 +133,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.3.3
   isar_generator: ^3.1.0+1
+  auto_route_generator: ^7.3.2
 
   change_app_package_name: ^1.1.0
 

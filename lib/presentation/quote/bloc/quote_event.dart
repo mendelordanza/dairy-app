@@ -17,12 +17,12 @@ class ResetCount extends QuoteEvent {}
 class GenerateQuote extends QuoteEvent {
   final String prompt;
 
-  GenerateQuote(this.prompt);
+  const GenerateQuote(this.prompt);
 }
 
 class SaveQuote extends QuoteEvent {
   final Answer answer;
   final String quote;
 
-  SaveQuote(this.answer, this.quote);
+  const SaveQuote(this.answer, this.quote);
 }

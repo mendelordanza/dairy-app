@@ -1,21 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:night_diary/helper/route_strings.dart';
+import 'package:night_diary/helper/routes/app_router.gr.dart';
 import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
 import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/settings/bloc/biometrics_cubit.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../paywall/paywall_page.dart';
+import '../widgets/show_paywall.dart';
 
+@RoutePage()
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
@@ -25,33 +25,6 @@ class SettingsPage extends StatelessWidget {
       mode: LaunchMode.externalApplication,
     )) {
       throw Exception('Could not launch $url');
-    }
-  }
-
-  showPaywall(BuildContext context) async {
-    try {
-      final offerings = await Purchases.getOfferings();
-      if (context.mounted && offerings.current != null) {
-        await showModalBottomSheet(
-          isDismissible: true,
-          isScrollControlled: true,
-          backgroundColor: Theme.of(context).cardColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-          ),
-          context: context,
-          builder: (BuildContext context) {
-            return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setModalState) {
-              return PaywallPage(
-                offering: offerings.current!,
-              );
-            });
-          },
-        );
-      }
-    } on PlatformException catch (e) {
-      print(e.message);
     }
   }
 
@@ -85,7 +58,8 @@ class SettingsPage extends StatelessWidget {
                                 onTap: () {
                                   if (state is PurchaseLoaded &&
                                       state.entitled) {
-                                    context.push(RouteStrings.subscribed);
+                                    context.router
+                                        .push(const SubscribedRoute());
                                   } else {
                                     showPaywall(context);
                                   }
@@ -109,7 +83,7 @@ class SettingsPage extends StatelessWidget {
                           builder: (context, state) {
                         if (state is BiometricsLoaded) {
                           return SettingsContainer(
-                            label: "General",
+                            label: "App",
                             settingItems: [
                               SettingItem(
                                 onTap: () async {},
@@ -212,7 +186,7 @@ class SettingsPage extends StatelessWidget {
                           SettingItem(
                             onTap: () {
                               context.read<AuthBloc>().add(LogoutRequest());
-                              context.pop();
+                              context.router.pop();
                             },
                             icon: const Center(
                               child: Icon(

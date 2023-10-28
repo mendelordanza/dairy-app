@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:night_diary/helper/shared_prefs.dart';
@@ -17,15 +18,13 @@ class LocalAuthCubit extends Cubit<LocalAuthState> {
   }
 
   checkBiometrics() async {
+    emit(LocalAuthInitial());
     final biometricsEnabled = sharedPrefs.getBiometricsEnabled() ?? false;
     if (!biometricsEnabled || !await localAuthentication.canCheckBiometrics) {
       emit(LocalAuthBiometricsDisabled());
+    } else {
+      emit(LocalAuthBiometricsEnabled());
     }
-  }
-
-  enableBiometrics() async {
-    final biometricsEnabled = sharedPrefs.getBiometricsEnabled() ?? false;
-    await sharedPrefs.setBiometricsEnabled(!biometricsEnabled);
   }
 
   authenticate() async {

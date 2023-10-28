@@ -18,10 +18,15 @@ class QuoteRepositoryImpl extends QuoteRepository {
 
   final SupabaseClient supabaseClient;
 
-  QuoteRepositoryImpl(this.dio, this.supabaseClient, this.localDataSource,);
+  QuoteRepositoryImpl(
+    this.dio,
+    this.supabaseClient,
+    this.localDataSource,
+  );
 
   @override
-  Future<DataState<String>> generateQuote({required String prompt}) async {
+  Future<DataState<Map<String, String>>> generateQuote(
+      {required String prompt}) async {
     try {
       final openAiApiKey = ConfigReader.getOpenAIKey();
       String basicAuth = 'Bearer $openAiApiKey';
@@ -37,14 +42,14 @@ class QuoteRepositoryImpl extends QuoteRepository {
           messages: [
             Message(
               role: "system",
-              content: "You are a motiviational/health and wellness speaker.",
+              content: "You are a psychologist",
             ),
             Message(
               role: "user",
               content:
-              "Can you give me advice in a form of a quote related on the statement below?"
-                  " In JSON format with quote field only. No prose. No author name."
-                  " No redundancy. 1-3 lines max. Make sure it is in english - '$prompt'",
+                  "Can you give me advice in a form of a quote related on the statement below?"
+                  " In JSON format with quote field only. No prose. No author name. "
+                  "No toxic positivity. No redundancy. 1-3 lines max. Make sure it is in english - '$prompt'",
             )
           ],
         ).toJson()),
@@ -52,9 +57,9 @@ class QuoteRepositoryImpl extends QuoteRepository {
       if (response.statusCode == 200) {
         final completion = Completion.fromJson(response.data);
         final content =
-        completion.choices[0].message.content.replaceAll("\n", "");
+            completion.choices[0].message.content.replaceAll("\n", "");
         final quote = jsonDecode(content)["quote"] as String;
-        return DataSuccess(quote);
+        return DataSuccess({"quote": quote});
       } else {
         return DataFailed(
             error: response.statusMessage ?? "Something went wrong.");
@@ -65,7 +70,8 @@ class QuoteRepositoryImpl extends QuoteRepository {
   }
 
   @override
-  Future<void> saveQuote({required Answer answer, required String quote}) async {
+  Future<void> saveQuote(
+      {required Answer answer, required String quote}) async {
     await localDataSource.addAnswer(answer: answer.copyWith(quote: quote));
     // await supabaseClient
     //     .from('answers')

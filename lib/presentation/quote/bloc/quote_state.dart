@@ -7,8 +7,9 @@ class QuoteInitial extends QuoteState {}
 
 class QuoteGenerated extends QuoteState {
   final String quote;
+  final String author;
 
-  QuoteGenerated(this.quote);
+  QuoteGenerated({required this.quote, this.author = ""});
 }
 
 class QuoteLoading extends QuoteState {}

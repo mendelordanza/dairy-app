@@ -1,20 +1,26 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:night_diary/presentation/auth/biometric_page.dart';
+import 'package:night_diary/helper/routes/app_router.gr.dart';
 import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
-import 'package:night_diary/presentation/home/home_page.dart';
+import 'package:night_diary/presentation/splash_page.dart';
 
+@RoutePage()
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocalAuthCubit, LocalAuthState>(
-      builder: (context, state) {
+    return BlocConsumer<LocalAuthCubit, LocalAuthState>(
+      listener: (context, state) {
         if (state is LocalAuthSuccess || state is LocalAuthBiometricsDisabled) {
-          return const HomePage();
+          context.router.replace(const HomeRoute());
+        } else {
+          context.router.replace(const BiometricRoute());
         }
-        return const BiometricPage();
+      },
+      builder: (context, state) {
+        return const SplashPage();
       },
     );
 

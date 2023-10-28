@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:night_diary/helper/route_generator.dart';
 import 'package:night_diary/helper/shared_prefs.dart';
 import 'package:night_diary/helper/theme.dart';
 import 'package:night_diary/injection_container.dart';
@@ -18,6 +17,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'config_reader.dart';
 import 'firebase_options.dart';
 import 'helper/constants.dart';
+import 'helper/routes/app_router.dart';
 import 'injection_container.dart' as di;
 import 'package:timezone/data/latest.dart' as tzdata;
 
@@ -78,6 +78,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    AppRouter appRouter = AppRouter();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -101,7 +102,7 @@ class _MyAppState extends State<MyApp> {
         themeMode: ThemeMode.dark,
         theme: MyThemes.lightTheme,
         darkTheme: MyThemes.darkTheme,
-        routerConfig: RouteGenerator.generateRoute(),
+        routerConfig: appRouter.config(),
       ),
     );
   }
