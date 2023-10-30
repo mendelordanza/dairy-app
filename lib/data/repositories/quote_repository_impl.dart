@@ -42,14 +42,14 @@ class QuoteRepositoryImpl extends QuoteRepository {
           messages: [
             Message(
               role: "system",
-              content: "You are a psychologist",
+              content: "You are a psychologist / motivational speaker",
             ),
             Message(
               role: "user",
               content:
                   "Can you give me advice in a form of a quote related on the statement below?"
                   " In JSON format with quote field only. No prose. No author name. "
-                  "No toxic positivity. No redundancy. 1-3 lines max. Make sure it is in english - '$prompt'",
+                  "No toxic positivity. No redundancy. Make sure it is in english - '$prompt'",
             )
           ],
         ).toJson()),
