@@ -29,6 +29,9 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: SubscribedRoute.page,
         ),
+        AutoRoute(
+          page: PaywallRoute.page,
+        ),
         CustomRoute(
           page: EntryNavigationRoute.page,
           children: [

@@ -37,19 +37,24 @@ class SubscribedPage extends HookWidget {
             const Text(
               "You are a Pro!",
               textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             SvgPicture.asset("assets/ic_logo.svg"),
             BlocBuilder<PurchaseBloc, PurchaseState>(
               builder: (context, state) {
                 if (state is PurchaseLoaded &&
-                    state.entitled &&
+                    state.premiumEntitled &&
                     state.info != null) {
                   return Column(
                     children: [
                       Text(
                           "Purchase Date: ${DateTime.parse(state.info!.originalPurchaseDate).formatDate(pattern: "MMMM dd, yyyy")}"),
                       if (state.info!.expirationDate != null)
-                        Text("Renewal Date: ${state.info!.expirationDate}"),
+                        Text(
+                            "Renewal Date: ${DateTime.parse(state.info!.expirationDate!).formatDate(pattern: "MMMM dd, yyyy")}"),
                     ],
                   );
                 }

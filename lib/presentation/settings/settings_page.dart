@@ -57,7 +57,7 @@ class SettingsPage extends StatelessWidget {
                               SettingItem(
                                 onTap: () {
                                   if (state is PurchaseLoaded &&
-                                      state.entitled) {
+                                      state.premiumEntitled) {
                                     context.router
                                         .push(const SubscribedRoute());
                                   } else {
@@ -66,14 +66,13 @@ class SettingsPage extends StatelessWidget {
                                 },
                                 icon: SvgPicture.asset("assets/ic_logo.svg"),
                                 iconBackgroundColor: const Color(0xFF666666),
-                                label:
-                                    (state is PurchaseLoaded && state.entitled)
-                                        ? "You are subscribed to Dairy Premium!"
+                                label: (state is PurchaseLoaded &&
+                                        state.premiumEntitled)
+                                    ? "You are subscribed to Dairy Premium!"
+                                    : (state is PurchaseLoaded && state.onTrial)
+                                        ? "You are currently on 7-day free trial"
                                         : "Unlock Dairy Premium",
-                                subtitle:
-                                    (state is PurchaseLoaded && state.entitled)
-                                        ? null
-                                        : "Enjoy unlimited affirmations!",
+                                subtitle: "Enjoy unlimited affirmations!",
                               ),
                             ],
                           );

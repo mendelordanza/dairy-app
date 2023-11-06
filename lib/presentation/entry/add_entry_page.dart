@@ -114,7 +114,7 @@ class AddEntryView extends HookWidget {
                             context.read<QuoteBloc>().totalGeneratedQuote;
                         context.read<PurchaseBloc>().add(CheckEntitlement());
                         if ((purchaseState is PurchaseLoaded &&
-                                purchaseState.entitled) ||
+                                purchaseState.premiumEntitled) ||
                             totalGeneratedQuote == 0) {
                           context.read<EntryBloc>().add(AddEntry(answer));
                           context.read<QuoteBloc>().add(ResetCount());

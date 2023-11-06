@@ -126,7 +126,7 @@ class GenerateQuoteView extends StatelessWidget {
                             final totalCount =
                                 context.read<QuoteBloc>().totalGeneratedQuote;
                             if ((purchaseState is PurchaseLoaded &&
-                                    purchaseState.entitled) ||
+                                    purchaseState.premiumEntitled) ||
                                 totalCount == 0) {
                               context
                                   .read<QuoteBloc>()
@@ -255,7 +255,7 @@ class GenerateQuoteView extends StatelessWidget {
           children: [
             BlocConsumer<PurchaseBloc, PurchaseState>(
               listener: (context, state) {
-                if ((state is PurchaseLoaded && !state.entitled) &&
+                if ((state is PurchaseLoaded && !state.premiumEntitled) &&
                     totalGeneratedQuote == 1) {
                   showPaywall(context);
                 }
@@ -264,7 +264,7 @@ class GenerateQuoteView extends StatelessWidget {
                 return TextButton(
                   onPressed: () async {
                     context.read<PurchaseBloc>().add(CheckEntitlement());
-                    if ((state is PurchaseLoaded && state.entitled) ||
+                    if ((state is PurchaseLoaded && state.premiumEntitled) ||
                         totalGeneratedQuote == 0) {
                       context
                           .read<QuoteBloc>()

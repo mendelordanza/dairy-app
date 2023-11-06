@@ -13,13 +13,13 @@ class PurchaseInitial extends PurchaseState {}
 class PurchaseLoaded extends PurchaseState {
   final bool onTrial;
   final bool trialEntitled;
-  final bool entitled;
+  final bool premiumEntitled;
   final EntitlementInfo? info;
 
   const PurchaseLoaded({
     this.onTrial = false,
-    this.trialEntitled = false,
-    this.entitled = false,
+    this.trialEntitled = true,
+    this.premiumEntitled = false,
     this.info,
   });
 
@@ -27,7 +27,7 @@ class PurchaseLoaded extends PurchaseState {
   List<Object?> get props => [
         onTrial,
         trialEntitled,
-        entitled,
+        premiumEntitled,
         info,
       ];
 }
