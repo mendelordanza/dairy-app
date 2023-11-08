@@ -4,8 +4,6 @@ extension StringExtension on String {
     return lowerCaseText.contains("killed someone") ||
         lowerCaseText.contains("kill someone") ||
         lowerCaseText.contains("kill myself") ||
-        lowerCaseText.contains("kill") ||
-        lowerCaseText.contains("suicide") ||
         lowerCaseText.contains("suicidal thoughts");
   }
 }

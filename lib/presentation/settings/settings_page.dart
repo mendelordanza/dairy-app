@@ -119,7 +119,7 @@ class SettingsPage extends StatelessWidget {
                               final InAppReview inAppReview =
                                   InAppReview.instance;
                               inAppReview.openStoreListing(
-                                appStoreId: "6450363173",
+                                appStoreId: "6464040778",
                               );
                             },
                             icon: const Icon(

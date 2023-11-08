@@ -18,6 +18,7 @@ import 'package:night_diary/presentation/entry/bloc/entry_bloc.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
 import 'package:night_diary/presentation/quote/bloc/quote_bloc.dart';
+import 'package:night_diary/presentation/review/review_cubit.dart';
 import 'package:night_diary/presentation/settings/bloc/biometrics_cubit.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -53,6 +54,9 @@ Future<void> setup() async {
     () => BiometricsCubit(
       sharedPrefs: getIt(),
     ),
+  );
+  getIt.registerFactory(
+    () => ReviewCubit(sharedPrefs: getIt()),
   );
 
   //Repository

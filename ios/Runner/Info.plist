@@ -271,5 +271,7 @@
     </array>
     <key>FacebookAppID</key>
     <string>1040325883661122</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
 </dict>
 </plist>

@@ -10,6 +10,7 @@ import 'package:night_diary/presentation/auth/bloc/auth_bloc.dart';
 import 'package:night_diary/presentation/auth/bloc/local_auth_cubit.dart';
 import 'package:night_diary/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:night_diary/presentation/purchase/purchase_bloc.dart';
+import 'package:night_diary/presentation/review/review_cubit.dart';
 import 'package:night_diary/presentation/settings/bloc/biometrics_cubit.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -95,6 +96,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => getIt<BiometricsCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ReviewCubit>(),
         ),
       ],
       child: MaterialApp.router(
