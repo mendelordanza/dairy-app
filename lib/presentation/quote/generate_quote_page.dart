@@ -272,6 +272,7 @@ class GenerateQuoteView extends StatelessWidget {
                   onPressed: () async {
                     context.read<PurchaseBloc>().add(CheckEntitlement());
                     if ((state is PurchaseLoaded && state.premiumEntitled) ||
+                        (state is PurchaseLoaded && state.onTrial) ||
                         totalGeneratedQuote == 0) {
                       context
                           .read<QuoteBloc>()
